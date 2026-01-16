@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文字数カウンター | TestSites</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="launcher-nav">
+            <a href="../" class="back-link">← ランチャーに戻る</a>
+        </header>
+
+        <main class="app-content">
+            <h1 class="page-title">文字数カウンター</h1>
+
+            <section class="input-area">
+                <textarea id="textInput" placeholder="ここにテキストを入力またはペーストしてください..." spellcheck="false"></textarea>
+            </section>
+
+            <section class="result-area">
+                <div class="result-grid">
+                    <div class="result-item">
+                        <span class="label">全文字数</span>
+                        <span id="totalChars" class="value">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">全角文字</span>
+                        <span id="fullWidthChars" class="value">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">半角文字</span>
+                        <span id="halfWidthChars" class="value">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">半角スペース</span>
+                        <span id="halfSpaces" class="value">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">全角スペース</span>
+                        <span id="fullSpaces" class="value">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">改行数</span>
+                        <span id="lineBreaks" class="value">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">行数</span>
+                        <span id="lineCount" class="value">0</span>
+                    </div>
+                    <div class="result-item highlight">
+                        <span class="label">UTF-8バイト数</span>
+                        <span id="byteCount" class="value">0</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>

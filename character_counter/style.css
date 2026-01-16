@@ -1,0 +1,148 @@
+/**
+ * 文字数カウンター スタイルシート
+ * 「生活空間に自然に溶け込む、静止で上質なツール」を目指したミニマルデザイン
+ */
+
+:root {
+    /* カラーパレット - オフホワイトからライトグレーの基調 */
+    --bg-color: #fcfcfc;
+    --text-color: #333333;
+    --text-muted: #666666;
+    --accent-color: #556677;
+    /* 彩度を抑えた寒色 */
+    --border-color: #eeeeee;
+    --input-bg: #ffffff;
+    --input-focus-border: #dddddd;
+
+    /* タイポグラフィ */
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', 'BIZ UDPGothic', Meiryo, sans-serif;
+    --base-font-size: 15px;
+    --line-height: 1.8;
+
+    /* 余白と形 */
+    --spacing-xs: 8px;
+    --spacing-s: 16px;
+    --spacing-m: 32px;
+    --spacing-l: 64px;
+    --border-radius: 4px;
+    /* 控えめな角丸 */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    font-size: var(--base-font-size);
+    line-height: var(--line-height);
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-m) var(--spacing-s);
+}
+
+/* ナビゲーション */
+.launcher-nav {
+    margin-bottom: var(--spacing-m);
+}
+
+.back-link {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 13px;
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: var(--accent-color);
+}
+
+/* ページタイトル */
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: var(--spacing-m);
+    color: var(--accent-color);
+    text-align: center;
+    letter-spacing: 0.05em;
+}
+
+/* 入力エリア */
+.input-area {
+    margin-bottom: var(--spacing-m);
+}
+
+textarea {
+    width: 100%;
+    height: 300px;
+    padding: var(--spacing-s);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.6;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+textarea:focus {
+    border-color: var(--input-focus-border);
+}
+
+/* 結果表示エリア */
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--spacing-s);
+    padding-top: var(--spacing-m);
+    border-top: 1px solid var(--border-color);
+}
+
+.result-item {
+    padding: var(--spacing-s);
+    background-color: transparent;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.result-item.highlight {
+    border-bottom-color: var(--accent-color);
+}
+
+.label {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.value {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--text-color);
+    font-variant-numeric: tabular-nums;
+    /* 数字の幅を揃える */
+}
+
+/* モバイル対応 */
+@media (max-width: 480px) {
+    .result-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .page-title {
+        font-size: 1.25rem;
+    }
+}
