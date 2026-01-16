@@ -1,0 +1,5 @@
+provider,plan_name,time_unit_min,time_price_yen,distance_price_yen_per_km,fixed_fee_yen
+TimesCar,Standard,15,220,20,0
+Careco,Basic,10,150,17,0
+OrixCarshare,Individual-A,15,200,16,0
+Anyca,CasualPlan,60,800,0,500

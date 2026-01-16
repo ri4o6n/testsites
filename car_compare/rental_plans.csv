@@ -1,0 +1,7 @@
+provider,plan_name,base_hours,base_price_yen,extra_hour_price_yen,distance_price_yen_per_km,fixed_fee_yen
+Nippon,Compact-6h,6,6050,1100,0,0
+Toyota,Compact-6h,6,7150,1100,0,0
+Orix,Compact-6h,6,5500,1100,0,0
+Nippon,Compact-12h,12,7150,1100,0,0
+Toyota,Compact-12h,12,8250,1100,0,0
+Orix,Compact-12h,12,6600,1100,0,0

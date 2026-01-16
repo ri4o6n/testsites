@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レンタカー vs カーシェア 損益分岐点計算</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="container" id="app">
+        <header>
+            <h1>Car Price Simulator</h1>
+            <p>利用時間と距離から最適なプランを見つける</p>
+        </header>
+
+        <!-- CSVアップロードセクション -->
+        <div class="card">
+            <h2><svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"></path>
+                </svg> プラン読み込み</h2>
+            <div class="grid">
+                <div class="form-group">
+                    <label for="carshare-csv">カーシェア CSV (carshare_plans.csv)</label>
+                    <input type="file" id="carshare-csv" accept=".csv">
+                </div>
+                <div class="form-group">
+                    <label for="rental-csv">レンタカー CSV (rental_plans.csv)</label>
+                    <input type="file" id="rental-csv" accept=".csv">
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn-outline" id="load-samples">サンプルデータを読み込む</button>
+            </div>
+        </div>
+
+        <!-- 入力セクション -->
+        <div class="card">
+            <h2><svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
+                    </path>
+                </svg> 条件設定</h2>
+            <div class="grid">
+                <div class="form-group">
+                    <label for="carshare-select">対象カーシェアプラン</label>
+                    <select id="carshare-select">
+                        <option value="">CSVを読み込んでください</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="rental-select">対象レンタカープラン</label>
+                    <select id="rental-select">
+                        <option value="">CSVを読み込んでください</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="form-group">
+                    <label for="input-hours">利用時間 (時間)</label>
+                    <input type="number" id="input-hours" step="0.5" placeholder="例: 5.5">
+                </div>
+                <div class="form-group">
+                    <label for="input-distance">走行距離 (km)</label>
+                    <input type="number" id="input-distance" step="1" placeholder="例: 60">
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn-primary" id="calculate-btn">計算を実行する</button>
+            </div>
+        </div>
+
+        <!-- 計算結果表示セクション -->
+        <div id="result-area" style="display: none;">
+            <div class="card">
+                <h2><svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg> 計算結果</h2>
+                <div class="results-grid">
+                    <div class="result-item">
+                        <label>カーシェア料金</label>
+                        <span class="result-value" id="res-carshare">-</span>
+                    </div>
+                    <div class="result-item">
+                        <label>レンタカー料金</label>
+                        <span class="result-value" id="res-rental">-</span>
+                    </div>
+                </div>
+                <div class="verdict" id="res-verdict">
+                    -
+                </div>
+                <div class="break-even">
+                    <p>この時間設定での損益分岐点（距離）：</p>
+                    <span class="break-even-value" id="res-breakeven">-</span>
+                </div>
+
+                <details>
+                    <summary>損益分岐点探索ログ (d=0..500km)</summary>
+                    <div class="log-content" id="calc-log">
+                        <!-- ここにログが出力されます -->
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
