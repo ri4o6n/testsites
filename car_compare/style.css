@@ -1,30 +1,34 @@
 /*
  * グローバルテーマ定義
- * プレミアムな質感、グラスモーフィズム、モダンなタイポグラフィを採用
+ * 思想: 生活空間に溶け込む、静かで上質なミニマルデザイン
+ * 指針: 余白で語り、素材感（整い）で高級感を出す
  */
 :root {
-    /* カラーパレット */
-    --primary: #4f46e5;
-    --primary-hover: #4338ca;
-    --secondary: #10b981;
-    --danger: #ef4444;
-    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    --card-bg: rgba(30, 41, 59, 0.7);
-    --card-border: rgba(255, 255, 255, 0.1);
-
-    /* テキストカラー */
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-
-    /* スペーシング・形状 */
-    --radius-lg: 16px;
+    /* カラーパレット - 柔らかなライトトーン */
+    --bg-base: #f5f5f7;           /* オフホワイト: 目に優しいベース */
+    --bg-card: #ffffff;           /* 純白: 清潔感のあるカード */
+    --accent: #5e5ce6;            /* 彩度を抑えたインディゴ: 知的なアクセント */
+    --accent-soft: rgba(94, 92, 230, 0.08);
+    
+    /* テキストカラー - 極端なコントラストを避ける */
+    --text-main: #1d1d1f;         /* 深みのあるグレー */
+    --text-sub: #86868b;          /* 柔らかな補助テキスト */
+    --text-on-accent: #ffffff;
+    
+    /* 境界・装飾 */
+    --border-light: #d2d2d7;      /* 繊細な境界線 */
+    --radius-sm: 8px;             /* 控えめな角丸 */
     --radius-md: 12px;
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
-
-    /* フォント */
-    --font-sans: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    
+    /* シャドウ - 存在を感じさせない極薄の影 */
+    --shadow-soft: 0 1px 3px rgba(0,0,0,0.02), 0 4px 12px rgba(0,0,0,0.03);
+    
+    /* タイポグラフィ */
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-numeric: 'Outfit', var(--font-sans); /* 数字は視認性の高いOutfitを採用 */
 }
 
+/* リセット & ベース */
 * {
     margin: 0;
     padding: 0;
@@ -33,219 +37,247 @@
 
 body {
     font-family: var(--font-sans);
-    background: var(--bg-gradient);
-    background-attachment: fixed;
+    background-color: var(--bg-base);
     color: var(--text-main);
-    line-height: 1.6;
-    min-height: 100vh;
-    padding: 2rem 1rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding: 80px 24px;
     display: flex;
     justify-content: center;
 }
 
 .container {
     width: 100%;
-    max-width: 800px;
+    max-width: 680px; /* 情報を詰め込まず、中央に寄せる */
 }
 
+/* ヘッダー - 静かな佇まい */
 header {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 64px; /* 十分な「空気の層」 */
 }
 
 header h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(to right, #818cf8, #c084fc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    color: var(--text-main);
 }
 
 header p {
-    color: var(--text-muted);
+    color: var(--text-sub);
+    font-size: 0.95rem;
+    font-weight: 400;
 }
 
-/* カードスタイル */
+/* カード - 生活ツールとしての安定感 */
 .card {
-    background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-lg);
-    padding: 2rem;
-    margin-bottom: 2rem;
-    box-shadow: var(--shadow-xl);
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    padding: 32px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(0,0,0,0.04);
 }
 
 .card h2 {
-    font-size: 1.25rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 24px;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 8px;
+    color: var(--text-main);
 }
 
-/* フォーム要素 */
+.card h2 svg {
+    color: var(--text-sub); /* アイコンも主張しない */
+}
+
+/* フォーム・グリッドレイアウト */
 .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
+    gap: 24px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 580px) {
     .grid {
         grid-template-columns: 1fr;
     }
 }
 
 .form-group {
-    margin-bottom: 1.25rem;
+    margin-bottom: 16px;
 }
 
 label {
     display: block;
-    font-size: 0.875rem;
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-sub);
+    margin-bottom: 8px;
 }
 
 input[type="number"],
 input[type="file"],
 select {
     width: 100%;
-    background: rgba(15, 23, 42, 0.5);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-md);
-    padding: 0.75rem 1rem;
+    background: #fafafb; /* 背景に馴染ませる */
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
     color: var(--text-main);
     font-size: 1rem;
-    transition: all 0.2s;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
 }
 
 input:focus,
 select:focus {
     outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
 }
 
-/* ボタン */
+/* ボタン - 主張しすぎない質感 */
 .btn-group {
     display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: 12px;
+    margin-top: 16px;
 }
 
 button {
     cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s;
-    border-radius: var(--radius-md);
-    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    border-radius: var(--radius-sm);
+    padding: 10px 20px;
     border: none;
+    transition: all 0.2s;
+    font-family: inherit;
 }
 
 .btn-primary {
-    background: var(--primary);
-    color: white;
-    flex: 2;
+    background: var(--accent);
+    color: var(--text-on-accent);
+    flex: 1;
 }
 
 .btn-primary:hover {
-    background: var(--primary-hover);
-    transform: translateY(-1px);
+    filter: brightness(1.1);
 }
 
 .btn-outline {
     background: transparent;
-    border: 1px solid var(--card-border);
+    border: 1px solid var(--border-light);
     color: var(--text-main);
 }
 
 .btn-outline:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: #f5f5f7;
 }
 
-/* 結果表示 */
+/* 計算結果 - 視認性と品位 */
 .results-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: 16px;
+    margin-top: 8px;
 }
 
 .result-item {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 1rem;
-    border-radius: var(--radius-md);
+    background: #fafafb;
+    padding: 20px;
+    border-radius: var(--radius-sm);
     text-align: center;
+}
+
+.result-item label {
+    margin-bottom: 4px;
 }
 
 .result-value {
+    font-family: var(--font-numeric);
     font-size: 1.5rem;
     font-weight: 700;
-    display: block;
+    color: var(--text-main);
 }
 
 .verdict {
-    margin-top: 1.5rem;
-    padding: 1.5rem;
+    margin-top: 24px;
+    padding: 24px;
     border-radius: var(--radius-md);
     text-align: center;
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
+/* 判定結果の表現 - 強い色を避け、背景色と境界線で表現 */
 .verdict.win-carshare {
-    background: rgba(16, 185, 129, 0.1);
-    color: var(--secondary);
-    border: 1px solid var(--secondary);
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
 }
 
 .verdict.win-rental {
-    background: rgba(79, 70, 229, 0.1);
-    color: #818cf8;
-    border: 1px solid #818cf8;
+    background: #f5f3ff;
+    color: #5b21b6;
+    border: 1px solid #ddd6fe;
 }
 
 .break-even {
-    margin-top: 1rem;
+    margin-top: 16px;
     text-align: center;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: var(--radius-md);
+    padding: 16px;
+    border-top: 1px solid var(--border-light);
+}
+
+.break-even p {
+    font-size: 0.9rem;
+    color: var(--text-sub);
+    margin-bottom: 4px;
 }
 
 .break-even-value {
-    color: #fbbf24;
+    font-family: var(--font-numeric);
+    color: var(--text-main);
     font-size: 1.25rem;
     font-weight: 700;
 }
 
-/* ログ */
+/* ログ表示 - 控えめな存在感 */
 details {
-    margin-top: 2rem;
-    cursor: pointer;
+    margin-top: 32px;
 }
 
 summary {
-    color: var(--text-muted);
-    font-size: 0.875rem;
-    padding: 0.5rem;
+    color: var(--text-sub);
+    font-size: 0.85rem;
+    cursor: pointer;
+    list-style: none;
+    text-align: center;
+}
+
+summary:hover {
+    color: var(--text-main);
 }
 
 .log-content {
-    background: rgba(0, 0, 0, 0.2);
-    padding: 1rem;
-    border-radius: var(--radius-md);
+    background: #f5f5f7;
+    padding: 16px;
+    border-radius: var(--radius-sm);
     font-family: monospace;
-    font-size: 0.75rem;
-    max-height: 200px;
+    font-size: 0.8rem;
+    max-height: 180px;
     overflow-y: auto;
-    margin-top: 0.5rem;
+    margin-top: 12px;
+    border: 1px solid var(--border-light);
+    color: var(--text-sub);
 }
 
 .log-entry {
-    margin-bottom: 2px;
+    margin-bottom: 4px;
 }
