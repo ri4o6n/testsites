@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Poker Roguelike</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="game-container">
+        <!-- ヘッダー情報 -->
+        <header class="game-header">
+            <div class="floor-info">FLOOR <span id="floor-num">1</span>/10</div>
+            <div class="player-stats">
+                <div class="stat-item">HP <span id="player-hp">20</span>/<span id="player-max-hp">20</span></div>
+                <button id="rulebook-btn" class="rulebook-btn" title="ルールを確認">📖</button>
+            </div>
+        </header>
+
+        <!-- 敵エリア -->
+        <section class="enemy-area">
+            <div class="enemy-info">
+                <h2 id="enemy-name">スライム</h2>
+                <div class="hp-bar-container">
+                    <div id="enemy-hp-bar" class="hp-bar" style="width: 100%;"></div>
+                </div>
+                <div class="hp-text"><span id="enemy-hp">18</span>/<span id="enemy-max-hp">18</span></div>
+            </div>
+            <div id="enemy-intent" class="enemy-intent">攻撃準備中 (ATK: 4)</div>
+        </section>
+
+        <!-- ログ -->
+        <div id="game-log" class="game-log">冒険が始まった。</div>
+
+        <!-- プレイヤーHPバー -->
+        <div id="player-hp-bar-wrap" class="player-hp-bar-wrap">
+            <span class="hp-label">HP</span>
+            <div class="hp-bar-container">
+                <div id="player-hp-bar" class="hp-bar" style="width: 100%;"></div>
+            </div>
+            <span id="player-hp-bar-text" class="hp-text">20/20</span>
+        </div>
+
+        <!-- ダイスエリア -->
+        <main class="battle-area">
+            <div class="resource-panel">
+                <div class="res-item">ROLLS: <span id="rolls-left">3</span></div>
+                <div class="res-item">KEEPS: <span id="keeps-left">3</span></div>
+            </div>
+
+            <div id="dice-container" class="dice-container">
+                <!-- JSで6つのダイスを生成 -->
+            </div>
+
+            <div class="eval-panel">
+                <div id="hand-name" class="hand-name">ロール待ち…</div>
+                <div id="predicted-damage" class="predicted-damage">DMG: 0</div>
+            </div>
+
+            <div class="controls">
+                <button id="roll-button" class="btn-primary">ROLL</button>
+                <button id="confirm-button" class="btn-secondary">CONFIRM</button>
+            </div>
+            <div id="perk-icons" class="perk-icons">
+                <!-- パークアイコンがここに並ぶ -->
+            </div>
+        </main>
+
+        <!-- 報酬選択 / ゲームオーバー オーバーレイ -->
+        <div id="overlay" class="overlay hidden">
+            <div class="overlay-content">
+                <h2 id="overlay-title">勝利！</h2>
+                <p id="overlay-desc">パークを選択してください。</p>
+                <div id="perk-choices" class="perk-choices">
+                    <!-- 3択のパークボタン -->
+                </div>
+                <button id="next-button" class="btn-primary hidden">次へ</button>
+                <button id="restart-button" class="btn-secondary hidden">再挑戦</button>
+            </div>
+        </div>
+
+        <!-- ルールブック モーダル -->
+        <div id="rulebook-modal" class="overlay hidden">
+            <div class="overlay-content rulebook-content">
+                <h2>RULE BOOK</h2>
+                <div id="rulebook-body" class="rulebook-body">
+                    <!-- JSで内容を生成 -->
+                </div>
+                <button id="rulebook-close" class="btn-secondary">閉じる</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

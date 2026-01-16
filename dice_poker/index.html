@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Poker - Minimalist Tool</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Dice Poker</h1>
+            <p>静寂の中で運を試す、6つのダイスの対話。</p>
+        </header>
+
+        <main>
+            <div id="game-board">
+                <div class="dice-container" id="dice-container">
+                    <!-- ダイスはJavaScriptで生成 -->
+                </div>
+
+                <div class="status-panel">
+                    <div id="hand-name" class="hand-name">準備中</div>
+                    <div id="roll-count" class="roll-count">残り 2 回</div>
+                </div>
+
+                <div class="controls">
+                    <button id="roll-button" class="btn-primary">ダイスを振る</button>
+                    <button id="reset-button" class="btn-secondary">リセット</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-links">
+                <a href="../index.html">ランチャーに戻る</a>
+            </div>
+            <p>&copy; 2026 Minimalist Tools Collection</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

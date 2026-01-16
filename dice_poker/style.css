@@ -1,0 +1,219 @@
+/*
+ * Dice Poker Style: Minimal & Pure
+ * 思想: 生活空間に溶け込む、静かで上質なツール
+ */
+
+:root {
+    --bg-main: #ffffff;
+    --bg-dice: #fcfcfc;
+    --text-primary: #1a1a1a;
+    --text-secondary: #888888;
+    --accent: #000000;
+    --border-light: #eeeeee;
+    --shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
+    --shadow-dice: 0 4px 12px rgba(0, 0, 0, 0.03);
+    --font-sans: 'Outfit', -apple-system, sans-serif;
+    --dice-size: 80px;
+    --animation-speed: 0.6s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+}
+
+header {
+    margin-bottom: 4rem;
+    border-left: 2px solid var(--accent);
+    padding-left: 1.5rem;
+    text-align: left;
+    display: inline-block;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+
+header p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+/* ダイスエリア */
+.dice-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+    justify-items: center;
+}
+
+@media (min-width: 600px) {
+    .dice-container {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+.dice {
+    width: var(--dice-size);
+    height: var(--dice-size);
+    background: var(--bg-dice);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    font-weight: 300;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: var(--shadow-dice);
+    user-select: none;
+    position: relative;
+}
+
+.dice:hover {
+    transform: translateY(-2px);
+    border-color: var(--text-secondary);
+}
+
+.dice.held {
+    background: var(--text-primary);
+    color: white;
+    border-color: var(--text-primary);
+}
+
+.dice.rolling {
+    animation: roll-animation var(--animation-speed) ease-in-out;
+}
+
+@keyframes roll-animation {
+    0% {
+        transform: rotate(0) scale(1);
+    }
+
+    50% {
+        transform: rotate(180deg) scale(0.9);
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+/* ステータスパネル */
+.status-panel {
+    margin-bottom: 3rem;
+}
+
+.hand-name {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+    min-height: 1.5em;
+}
+
+.roll-count {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* コントロール */
+.controls {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+button {
+    font-family: var(--font-sans);
+    padding: 1rem 2.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: white;
+}
+
+.btn-primary:hover {
+    opacity: 0.8;
+    transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+    background: var(--border-light);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-light);
+}
+
+.btn-secondary:hover {
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+}
+
+/* フッター */
+footer {
+    margin-top: 6rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-light);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+}
+
+.footer-links {
+    margin-bottom: 1rem;
+}
+
+.footer-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--text-primary);
+}

@@ -1,0 +1,421 @@
+/*
+ * Dice Poker Roguelike Style
+ * 思想: 静謐な戦闘空間、情報集約
+ */
+
+:root {
+    --bg-main: #ffffff;
+    --bg-dark: #1a1a1a;
+    --text-primary: #1a1a1a;
+    --text-secondary: #888888;
+    --accent: #000000;
+    --danger: #d22d2d;
+    --safe: #2dd262;
+    --border-light: #eeeeee;
+    --font-sans: 'Outfit', -apple-system, sans-serif;
+    --dice-size: 70px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* 戦闘画面として固定 */
+}
+
+.game-container {
+    width: 100%;
+    max-width: 500px;
+    height: 100vh;
+    max-height: 800px;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    position: relative;
+    border: 1px solid var(--border-light);
+    background: #fff;
+}
+
+/* ヘッダー */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-light);
+    align-items: center;
+}
+
+.rulebook-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    padding: 0.2rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.rulebook-btn:hover {
+    background: #f0f0f0;
+}
+
+/* 敵エリア */
+.enemy-area {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.enemy-info h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+}
+
+.hp-bar-container {
+    width: 100%;
+    height: 4px;
+    background: var(--border-light);
+    border-radius: 2px;
+    margin-bottom: 0.25rem;
+    overflow: hidden;
+}
+
+.hp-bar {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.3s ease-out;
+}
+
+.hp-text {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.enemy-intent {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--danger);
+    font-weight: 600;
+}
+
+/* ログ */
+.game-log {
+    flex-grow: 1;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    padding: 1rem 0;
+    overflow-y: auto;
+    border-top: 1px solid #f9f9f9;
+}
+
+/* ログ行の強調 */
+.log-line {
+    opacity: 0.45;
+    transition: opacity 0.3s;
+}
+
+.log-line.current {
+    opacity: 1;
+    color: var(--text-primary);
+}
+
+/* プレイヤーHPバー */
+.player-hp-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0.5rem;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 1rem;
+}
+
+.hp-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.player-hp-bar-wrap .hp-bar-container {
+    flex-grow: 1;
+    margin: 0;
+}
+
+.hp-bar.warning {
+    background: var(--danger);
+}
+
+/* ダイスエリア */
+.battle-area {
+    background: #fcfcfc;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}
+
+.resource-panel {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+.dice-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    justify-items: center;
+    margin-bottom: 2rem;
+}
+
+.dice {
+    width: var(--dice-size);
+    height: var(--dice-size);
+    background: #fff;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.dice.held {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+.dice:active {
+    transform: scale(0.95);
+}
+
+.eval-panel {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.hand-name {
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 0.2rem;
+}
+
+.predicted-damage {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 700;
+}
+
+/* コントロール */
+.controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.perk-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    min-height: 24px;
+}
+
+.perk-icon {
+    width: 24px;
+    height: 24px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-light);
+    cursor: help;
+    position: relative;
+}
+
+/* Tooltip (Simple using title but styling can be customized if needed) */
+.perk-icon:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+button {
+    flex: 1;
+    padding: 0.8rem;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+    opacity: 0.8;
+}
+
+.btn-primary:disabled {
+    background: var(--border-light);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border-light);
+    color: var(--text-secondary);
+}
+
+/* オーバーレイ */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    transition: opacity 0.3s;
+}
+
+.overlay.hidden {
+    display: none;
+}
+
+/* ルールブック用 */
+.rulebook-content {
+    max-width: 400px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.rulebook-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    text-align: left;
+    font-size: 0.85rem;
+    padding: 1rem;
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 1rem;
+}
+
+.rb-section {
+    margin-bottom: 1.5rem;
+}
+
+.rb-section h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+    border-left: 3px solid var(--accent);
+    padding-left: 0.5rem;
+}
+
+.rb-list {
+    list-style: none;
+}
+
+.rb-list li {
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed #eee;
+}
+
+.rb-item-head {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+}
+
+.rb-item-desc {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.overlay-content {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+}
+
+.overlay-content h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.perk-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.perk-btn {
+    text-align: left;
+    background: #fff;
+    border: 1px solid var(--border-light);
+    padding: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.perk-btn:hover {
+    border-color: var(--accent);
+}
+
+.perk-btn .p-name {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.perk-btn .p-desc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.hidden {
+    display: none;
+}
