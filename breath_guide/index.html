@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>呼吸ガイド (4-7-8法) | Test Sites</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="app-header">
+        <a href="../" class="back-link">← 戻る</a>
+        <div class="theme-toggle">
+            <button id="themeToggle" aria-label="テーマ切り替え">
+                <span class="icon-sun">☀️</span>
+                <span class="icon-moon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="app-container">
+        <section class="breath-section">
+            <div id="visualizer" class="visualizer stopped">
+                <div class="circle-outer">
+                    <div class="circle-inner"></div>
+                </div>
+                <div class="breath-info">
+                    <h1 id="statusText">準備完了</h1>
+                    <div id="counter" class="counter">--</div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="startBtn" class="primary-btn">開始する</button>
+                <button id="stopBtn" class="secondary-btn hidden">停止</button>
+            </div>
+
+            <div class="instructions">
+                <h2>4-7-8呼吸法</h2>
+                <p>4秒かけて吸い、7秒間止め、8秒かけて吐き出します。リラックス効果が得られます。</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
