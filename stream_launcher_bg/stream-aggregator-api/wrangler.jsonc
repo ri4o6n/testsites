@@ -1,0 +1,12 @@
+{
+	"name": "stream-aggregator-api",
+	"main": "src/index.js",
+	"compatibility_date": "2026-01-17",
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "stream_agg_db",
+			"database_id": "bd333ad9-ff12-452b-bef2-e8c0be7133d9"
+		}
+	]
+}

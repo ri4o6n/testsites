@@ -1,0 +1,25 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "stream-feed-api",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-09-27",
+	"observability": {
+		"enabled": true
+	},
+	"d1_databases": [
+		{
+			"binding": "STREAM_FEED_DB",
+			"database_name": "stream_feed_db",
+			"database_id": "fa2edd2b-cd73-48d6-ae17-b9171ab2dd94"
+		}
+	]
+	/**
+   * Smart Placement
+   * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
+   */
+	// "placement": { "mode": "smart" }
+}
