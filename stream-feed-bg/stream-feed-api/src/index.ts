@@ -9,7 +9,7 @@ export interface Env {
 const corsHeaders = {
 	"Access-Control-Allow-Origin": "*",
 	"Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-	"Access-Control-Allow-Headers": "Content-Type, X-ADMIN-TOKEN",
+	"Access-Control-Allow-Headers": "Content-Type, X-ADMIN-TOKEN, X-USER-TOKEN",
 };
 
 function json(data: unknown, status = 200) {
@@ -70,16 +70,35 @@ type FeedItem = {
 	startAt: string | null; // MVPでは null（次ステップで埋める）
 };
 
+type FeedItemBase = Omit<FeedItem, "sourceId">;
+
 type FeedError = {
 	platform: "youtube" | "twitch";
 	sourceId: string;
 	message: string;
 };
 
+type UserRow = {
+	user_id: string;
+	owner_token: string;
+	read_token: string;
+};
+
 type TwitchToken = {
 	access_token: string;
 	expires_in: number;
 	token_type: string;
+};
+
+const YT_TTL = {
+	live: 600,
+	scheduled: 900,
+	archive: 3600,
+};
+
+const TW_TTL = {
+	live: 120,
+	offline: 600,
 };
 
 async function getTwitchToken(env: Env): Promise<string> {
@@ -129,6 +148,96 @@ async function getTwitchToken(env: Env): Promise<string> {
 	return json.access_token;
 }
 
+async function readCache<T>(
+	env: Env,
+	key: string
+): Promise<{ items: T; ttlSec: number; fetchedAt: string } | null> {
+	const cached = await env.STREAM_FEED_DB.prepare(
+		"SELECT payload_json, fetched_at FROM cache_kv WHERE key = ?"
+	)
+		.bind(key)
+		.first<{ payload_json: string; fetched_at: string }>();
+
+	if (!cached?.payload_json || !cached?.fetched_at) return null;
+
+	try {
+		const parsed = JSON.parse(cached.payload_json) as { items: T; ttlSec: number };
+		if (typeof parsed.ttlSec !== "number") return null;
+		return { items: parsed.items, ttlSec: parsed.ttlSec, fetchedAt: cached.fetched_at };
+	} catch {
+		return null;
+	}
+}
+
+function isFresh(fetchedAt: string, ttlSec: number): boolean {
+	const fetchedAtMs = new Date(fetchedAt + "Z").getTime();
+	if (Number.isNaN(fetchedAtMs)) return false;
+	return Date.now() - fetchedAtMs < ttlSec * 1000;
+}
+
+async function writeCache<T>(env: Env, key: string, items: T[], ttlSec: number): Promise<void> {
+	await env.STREAM_FEED_DB.prepare(
+		"INSERT INTO cache_kv (key, payload_json, fetched_at) VALUES (?, ?, datetime('now')) ON CONFLICT(key) DO UPDATE SET payload_json=excluded.payload_json, fetched_at=datetime('now')"
+	)
+		.bind(key, JSON.stringify({ items, ttlSec }))
+		.run();
+}
+
+function calcYoutubeTtl(items: FeedItemBase[]): number {
+	if (items.some((i) => i.status === "live")) return YT_TTL.live;
+	if (items.some((i) => i.status === "scheduled")) return YT_TTL.scheduled;
+	return YT_TTL.archive;
+}
+
+function getUserToken(request: Request, url: URL): string | null {
+	return url.searchParams.get("token") ?? request.headers.get("X-USER-TOKEN");
+}
+
+function createToken(): string {
+	const bytes = new Uint8Array(16);
+	crypto.getRandomValues(bytes);
+	return Array.from(bytes)
+		.map((b) => b.toString(16).padStart(2, "0"))
+		.join("");
+}
+
+async function getUserByToken(env: Env, token: string): Promise<UserRow | null> {
+	const row = await env.STREAM_FEED_DB.prepare(
+		"SELECT user_id, owner_token, read_token FROM users WHERE owner_token = ? OR read_token = ? LIMIT 1"
+	)
+		.bind(token, token)
+		.first<UserRow>();
+	return row ?? null;
+}
+
+async function requireUser(
+	request: Request,
+	env: Env,
+	allowReadOnly = true
+): Promise<{ user: UserRow; isOwner: boolean } | Response> {
+	const url = new URL(request.url);
+	const token = getUserToken(request, url);
+	if (!token) {
+		return json({ ok: false, error: "token required" }, 400);
+	}
+	const user = await getUserByToken(env, token);
+	if (!user) {
+		return json({ ok: false, error: "invalid token" }, 401);
+	}
+	const isOwner = token === user.owner_token;
+	if (!allowReadOnly && !isOwner) {
+		return json({ ok: false, error: "owner token required" }, 403);
+	}
+	return { user, isOwner };
+}
+
+async function isMaintenance(env: Env): Promise<boolean> {
+	const row = await env.STREAM_FEED_DB.prepare(
+		"SELECT value FROM settings WHERE key = 'maintenance' LIMIT 1"
+	).first<{ value: string }>();
+	return row?.value === "1";
+}
+
 export default {
 	async fetch(request: Request, env: Env): Promise<Response> {
 		const url = new URL(request.url);
@@ -143,11 +252,107 @@ export default {
 			return json({ ok: true, service: "stream-feed-api", now: new Date().toISOString() });
 		}
 
+		// maintenance: stop all actions except health
+		if (await isMaintenance(env)) {
+			return json({ ok: false, error: "maintenance" }, 503);
+		}
+
+		// bootstrap user (open)
+		if (url.pathname === "/api/bootstrap" && request.method === "POST") {
+			const userId = crypto.randomUUID();
+			const ownerToken = createToken();
+			const readToken = createToken();
+
+			await env.STREAM_FEED_DB.prepare(
+				"INSERT INTO users (user_id, owner_token, read_token) VALUES (?, ?, ?)"
+			)
+				.bind(userId, ownerToken, readToken)
+				.run();
+
+			return json({ ok: true, userId, ownerToken, readToken });
+		}
+
+		// resolve youtube channel url -> UC id
+		if (url.pathname === "/api/resolve/youtube" && request.method === "POST") {
+			const userOrErr = await requireUser(request, env);
+			if (userOrErr instanceof Response) return userOrErr;
+
+			const body = await readJson<{ url: string }>(request);
+			const rawUrl = body?.url ?? "";
+			let parsed: URL;
+			try {
+				parsed = new URL(rawUrl);
+			} catch {
+				return json({ ok: false, error: "invalid_url" }, 400);
+			}
+
+			const host = parsed.hostname.replace("www.", "");
+			if (host !== "youtube.com" && host !== "m.youtube.com") {
+				return json({ ok: false, error: "unsupported_host" }, 400);
+			}
+
+			const parts = parsed.pathname.split("/").filter(Boolean);
+			if (parts[0] === "channel" && parts[1]?.startsWith("UC")) {
+				return json({
+					ok: true,
+					channelId: parts[1],
+					url: `https://www.youtube.com/channel/${parts[1]}`,
+				});
+			}
+
+			if (parts[0]?.startsWith("@")) {
+				const handle = parts[0].slice(1);
+				const apiKey = env.YOUTUBE_API_KEY;
+				const urlStr =
+					"https://www.googleapis.com/youtube/v3/channels" +
+					`?part=id&forHandle=${encodeURIComponent(handle)}` +
+					`&key=${encodeURIComponent(apiKey)}`;
+				const res = await fetch(urlStr);
+				if (!res.ok) {
+					return json({ ok: false, error: `youtube resolve failed: ${res.status}` }, 502);
+				}
+				const data: any = await res.json();
+				const id = data?.items?.[0]?.id;
+				if (!id) {
+					return json({ ok: false, error: "not_found" }, 404);
+				}
+				return json({
+					ok: true,
+					channelId: id,
+					url: `https://www.youtube.com/channel/${id}`,
+				});
+			}
+
+			return json({ ok: false, error: "unsupported_path" }, 400);
+		}
+
+		// admin: maintenance toggle
+		if (url.pathname === "/api/admin/maintenance" && request.method === "POST") {
+			const denied = requireAdmin(request, env);
+			if (denied) return denied;
+			const body = await readJson<{ enabled: number }>(request);
+			const enabled = body?.enabled === 1 ? "1" : "0";
+			await env.STREAM_FEED_DB.prepare(
+				"INSERT INTO settings (key, value) VALUES ('maintenance', ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value"
+			)
+				.bind(enabled)
+				.run();
+			return json({ ok: true, maintenance: enabled === "1" });
+		}
+
 		// sources count (疎通用)
 		if (url.pathname === "/api/sources") {
+			const userOrErr = await requireUser(request, env);
+			if (userOrErr instanceof Response) return userOrErr;
+			const { user } = userOrErr;
+
 			try {
 				const r1 = await env.STREAM_FEED_DB.prepare("SELECT 1 AS one").first();
-				const r2 = await env.STREAM_FEED_DB.prepare("SELECT COUNT(*) AS cnt FROM sources").first();
+				const r2 = await env.STREAM_FEED_DB.prepare(
+					"SELECT COUNT(*) AS cnt FROM sources WHERE user_id = ?"
+				)
+					.bind(user.user_id)
+					.first();
 				return json({ ok: true, db: { select1: r1, sourcesCount: r2 } });
 			} catch (err: any) {
 				return json({ ok: false, error: { message: err?.message ?? String(err) } }, 500);
@@ -156,19 +361,26 @@ export default {
 
 		// ✅ list
 		if (url.pathname === "/api/sources/list" && request.method === "GET") {
+			const userOrErr = await requireUser(request, env);
+			if (userOrErr instanceof Response) return userOrErr;
+			const { user } = userOrErr;
+
 			try {
 				const enabledOnly = url.searchParams.get("enabled") === "1";
 
 				const sql = enabledOnly
 					? `SELECT id, platform, handle, display_name, url, enabled, created_at
              FROM sources
-             WHERE enabled = 1
+             WHERE user_id = ? AND enabled = 1
              ORDER BY platform ASC, created_at DESC`
 					: `SELECT id, platform, handle, display_name, url, enabled, created_at
              FROM sources
+             WHERE user_id = ?
              ORDER BY platform ASC, created_at DESC`;
 
-				const { results } = await env.STREAM_FEED_DB.prepare(sql).all<SourceItem>();
+				const { results } = await env.STREAM_FEED_DB.prepare(sql)
+					.bind(user.user_id)
+					.all<SourceItem>();
 
 				return json({
 					ok: true,
@@ -185,8 +397,9 @@ export default {
 
 		// ✅ admin: upsert
 		if (url.pathname === "/api/sources/upsert" && request.method === "POST") {
-			const denied = requireAdmin(request, env);
-			if (denied) return denied;
+			const userOrErr = await requireUser(request, env, false);
+			if (userOrErr instanceof Response) return userOrErr;
+			const { user } = userOrErr;
 
 			try {
 				const body = await readJson<UpsertBody>(request);
@@ -200,29 +413,30 @@ export default {
 				const urlStr = body.url ?? null;
 
 				const existed = await env.STREAM_FEED_DB.prepare(
-					"SELECT 1 AS x FROM sources WHERE id = ? LIMIT 1"
+					"SELECT 1 AS x FROM sources WHERE id = ? AND user_id = ? LIMIT 1"
 				)
-					.bind(body.id)
+					.bind(body.id, user.user_id)
 					.first();
 
 				await env.STREAM_FEED_DB.prepare(
-					`INSERT INTO sources (id, platform, handle, display_name, url, enabled)
-           VALUES (?, ?, ?, ?, ?, ?)
+					`INSERT INTO sources (id, user_id, platform, handle, display_name, url, enabled)
+           VALUES (?, ?, ?, ?, ?, ?, ?)
            ON CONFLICT(id) DO UPDATE SET
+             user_id=excluded.user_id,
              platform=excluded.platform,
              handle=excluded.handle,
              display_name=excluded.display_name,
              url=excluded.url,
              enabled=excluded.enabled`
 				)
-					.bind(body.id, body.platform, body.handle, displayName, urlStr, enabled)
+					.bind(body.id, user.user_id, body.platform, body.handle, displayName, urlStr, enabled)
 					.run();
 
 				const item = await env.STREAM_FEED_DB.prepare(
 					`SELECT id, platform, handle, display_name, url, enabled, created_at
-           FROM sources WHERE id = ?`
+           FROM sources WHERE id = ? AND user_id = ?`
 				)
-					.bind(body.id)
+					.bind(body.id, user.user_id)
 					.first<SourceItem>();
 
 				return json({
@@ -240,8 +454,9 @@ export default {
 
 		// ✅ admin: toggle enabled
 		if (url.pathname === "/api/sources/toggle" && request.method === "POST") {
-			const denied = requireAdmin(request, env);
-			if (denied) return denied;
+			const userOrErr = await requireUser(request, env, false);
+			if (userOrErr instanceof Response) return userOrErr;
+			const { user } = userOrErr;
 
 			try {
 				const body = await readJson<ToggleBody>(request);
@@ -249,8 +464,10 @@ export default {
 					return json({ ok: false, error: "id and enabled(0|1) are required" }, 400);
 				}
 
-				const r = await env.STREAM_FEED_DB.prepare("UPDATE sources SET enabled = ? WHERE id = ?")
-					.bind(body.enabled, body.id)
+				const r = await env.STREAM_FEED_DB.prepare(
+					"UPDATE sources SET enabled = ? WHERE id = ? AND user_id = ?"
+				)
+					.bind(body.enabled, body.id, user.user_id)
 					.run();
 
 				if ((r.meta?.changes ?? 0) === 0) {
@@ -268,31 +485,29 @@ export default {
 
 		// ✅ feed (MVP: YouTube live + upcoming)
 		if (url.pathname === "/api/feed" && request.method === "GET") {
+			const userOrErr = await requireUser(request, env);
+			if (userOrErr instanceof Response) return userOrErr;
+			const { user } = userOrErr;
+
 			try {
 				const ttlSec = 90;
 				const now = Date.now();
 
-				const cacheKey = "feed:default";
-				const cached = await env.STREAM_FEED_DB.prepare(
-					"SELECT payload_json, fetched_at FROM cache_kv WHERE key = ?"
-				)
-					.bind(cacheKey)
-					.first<{ payload_json: string; fetched_at: string }>();
-
-				if (cached?.payload_json && cached?.fetched_at) {
-					const fetchedAtMs = new Date(cached.fetched_at + "Z").getTime();
-					if (!Number.isNaN(fetchedAtMs) && now - fetchedAtMs < ttlSec * 1000) {
-						return json(JSON.parse(cached.payload_json));
-					}
+				const cacheKey = `feed:${user.user_id}`;
+				const cached = await readCache<any>(env, cacheKey);
+				if (cached && isFresh(cached.fetchedAt, ttlSec)) {
+					return json(cached.items);
 				}
 
 				// enabled sources
 				const { results } = await env.STREAM_FEED_DB.prepare(
 					`SELECT id, platform, handle, display_name, url, enabled, created_at
            FROM sources
-           WHERE enabled = 1
+           WHERE user_id = ? AND enabled = 1
            ORDER BY platform ASC, created_at DESC`
-				).all<SourceItem>();
+				)
+					.bind(user.user_id)
+					.all<SourceItem>();
 
 				const enabledSources = results ?? [];
 				const youtubeSources = enabledSources.filter((s) => s.platform === "youtube");
@@ -303,104 +518,98 @@ export default {
 
 				for (const s of youtubeSources) {
 					try {
-						const apiKey = env.YOUTUBE_API_KEY;
-
-						const base = "https://www.googleapis.com/youtube/v3/search";
-						const common =
-							`part=snippet&channelId=${encodeURIComponent(s.handle)}` +
-							`&type=video&maxResults=10&key=${encodeURIComponent(apiKey)}`;
-
-						const liveUrl = `${base}?${common}&eventType=live`;
-						const liveRes = await fetch(liveUrl);
-						if (!liveRes.ok) throw new Error(`youtube live fetch failed: ${liveRes.status}`);
-						const liveJson: any = await liveRes.json();
-
-						const upUrl = `${base}?${common}&eventType=upcoming`;
-						const upRes = await fetch(upUrl);
-						if (!upRes.ok) throw new Error(`youtube upcoming fetch failed: ${upRes.status}`);
-						const upJson: any = await upRes.json();
-
-						const detailMap = new Map<
-							string,
-							{ actualStartTime?: string; scheduledStartTime?: string }
-						>();
-						try {
-							const ids = [
-								...(liveJson?.items ?? []),
-								...(upJson?.items ?? []),
-							]
-								.map((it: any) => it?.id?.videoId)
-								.filter((id: any): id is string => typeof id === "string" && id.length > 0);
-							const uniqueIds = Array.from(new Set(ids));
-							if (uniqueIds.length > 0) {
-								const vidsUrl =
-									"https://www.googleapis.com/youtube/v3/videos" +
-									`?part=liveStreamingDetails&id=${encodeURIComponent(uniqueIds.join(","))}` +
-									`&key=${encodeURIComponent(apiKey)}`;
-								const vidsRes = await fetch(vidsUrl);
-								if (vidsRes.ok) {
-									const vidsJson: any = await vidsRes.json();
-									for (const v of vidsJson?.items ?? []) {
-										const vid = v?.id;
-										const live = v?.liveStreamingDetails ?? {};
-										if (vid) {
-											detailMap.set(vid, {
-												actualStartTime: live.actualStartTime,
-												scheduledStartTime: live.scheduledStartTime,
-											});
-										}
-									}
-								}
+						const channelCacheKey = `yt:channel:${s.handle}`;
+						const cachedChannel = await readCache<FeedItemBase>(env, channelCacheKey);
+						if (cachedChannel && isFresh(cachedChannel.fetchedAt, cachedChannel.ttlSec)) {
+							for (const base of cachedChannel.items) {
+								items.push({ ...base, sourceId: s.id });
 							}
-						} catch {
-							// startAt is best-effort
+							continue;
 						}
 
-						const toItem = (it: any, status: "live" | "scheduled" | "archive"): FeedItem => {
-							const vid = it?.id?.videoId;
-							const sn = it?.snippet;
+						const apiKey = env.YOUTUBE_API_KEY;
+						let uploadsId = "";
+						const uploadsKey = `yt:uploads:${s.handle}`;
+						const cachedUploads = await readCache<{ uploadsId: string }>(env, uploadsKey);
+						if (cachedUploads && isFresh(cachedUploads.fetchedAt, cachedUploads.ttlSec)) {
+							uploadsId = cachedUploads.items?.uploadsId ?? "";
+						}
+
+						if (!uploadsId) {
+							const chUrl =
+								"https://www.googleapis.com/youtube/v3/channels" +
+								`?part=contentDetails&id=${encodeURIComponent(s.handle)}` +
+								`&key=${encodeURIComponent(apiKey)}`;
+							const chRes = await fetch(chUrl);
+							if (!chRes.ok) throw new Error(`youtube channel fetch failed: ${chRes.status}`);
+							const chJson: any = await chRes.json();
+							uploadsId = chJson?.items?.[0]?.contentDetails?.relatedPlaylists?.uploads ?? "";
+							if (!uploadsId) throw new Error("youtube uploads playlist not found");
+							await writeCache(env, uploadsKey, { uploadsId }, 86400);
+						}
+
+						const listUrl =
+							"https://www.googleapis.com/youtube/v3/playlistItems" +
+							`?part=contentDetails&playlistId=${encodeURIComponent(uploadsId)}` +
+							`&maxResults=6&key=${encodeURIComponent(apiKey)}`;
+						const listRes = await fetch(listUrl);
+						if (!listRes.ok) throw new Error(`youtube playlist fetch failed: ${listRes.status}`);
+						const listJson: any = await listRes.json();
+						const videoIds = (listJson?.items ?? [])
+							.map((it: any) => it?.contentDetails?.videoId)
+							.filter((id: any): id is string => typeof id === "string" && id.length > 0);
+						if (videoIds.length === 0) throw new Error("youtube videos not found");
+
+						const vidsUrl =
+							"https://www.googleapis.com/youtube/v3/videos" +
+							`?part=snippet,liveStreamingDetails&id=${encodeURIComponent(videoIds.join(","))}` +
+							`&key=${encodeURIComponent(apiKey)}`;
+						const vidsRes = await fetch(vidsUrl);
+						if (!vidsRes.ok) throw new Error(`youtube videos fetch failed: ${vidsRes.status}`);
+						const vidsJson: any = await vidsRes.json();
+
+						const baseItems: FeedItemBase[] = [];
+						for (const v of vidsJson?.items ?? []) {
+							const vid = v?.id;
+							const sn = v?.snippet;
+							const live = v?.liveStreamingDetails ?? {};
+							const liveFlag = sn?.liveBroadcastContent ?? "none";
+							const status =
+								liveFlag === "live" ? "live" : liveFlag === "upcoming" ? "scheduled" : "archive";
 							const thumb =
 								sn?.thumbnails?.medium?.url ??
 								sn?.thumbnails?.high?.url ??
 								sn?.thumbnails?.default?.url ??
 								null;
-							const detail = vid ? detailMap.get(vid) : null;
 							const startAt =
 								status === "live"
-									? detail?.actualStartTime ?? detail?.scheduledStartTime ?? null
+									? live?.actualStartTime ?? live?.scheduledStartTime ?? null
 									: status === "scheduled"
-									? detail?.scheduledStartTime ?? null
+									? live?.scheduledStartTime ?? null
 									: null;
 
-							return {
+							baseItems.push({
 								platform: "youtube",
-								sourceId: s.id,
 								channelName: sn?.channelTitle ?? s.display_name ?? null,
 								title: sn?.title ?? "(no title)",
 								url: vid ? `https://www.youtube.com/watch?v=${vid}` : (s.url ?? ""),
 								thumbnailUrl: thumb,
 								status,
 								startAt,
-							};
-						};
-
-						const liveItems = liveJson?.items ?? [];
-						const upcomingItems = upJson?.items ?? [];
-
-						for (const it of liveItems) items.push(toItem(it, "live"));
-						for (const it of upcomingItems) items.push(toItem(it, "scheduled"));
-
-						if (liveItems.length + upcomingItems.length === 0) {
-							const archiveUrl = `${base}?${common}&order=date`;
-							const archiveRes = await fetch(archiveUrl);
-							if (!archiveRes.ok) {
-								throw new Error(`youtube archive fetch failed: ${archiveRes.status}`);
-							}
-							const archiveJson: any = await archiveRes.json();
-							for (const it of archiveJson?.items ?? []) {
-								items.push(toItem(it, "archive"));
-							}
+							});
 						}
+
+						const liveOrScheduled = baseItems.filter(
+							(i) => i.status === "live" || i.status === "scheduled"
+						);
+						const finalItems =
+							liveOrScheduled.length > 0 ? liveOrScheduled : baseItems.slice(0, 3);
+
+						for (const base of finalItems) {
+							items.push({ ...base, sourceId: s.id });
+						}
+
+						await writeCache(env, channelCacheKey, finalItems, calcYoutubeTtl(finalItems));
 					} catch (e: any) {
 						errors.push({
 							platform: "youtube",
@@ -429,6 +638,15 @@ export default {
 						if (!twitchToken) break;
 						try {
 							const login = s.handle;
+							const channelCacheKey = `tw:channel:${login.toLowerCase()}`;
+							const cachedChannel = await readCache<FeedItemBase>(env, channelCacheKey);
+							if (cachedChannel && isFresh(cachedChannel.fetchedAt, cachedChannel.ttlSec)) {
+								for (const base of cachedChannel.items) {
+									items.push({ ...base, sourceId: s.id });
+								}
+								continue;
+							}
+
 							const streamsUrl = `https://api.twitch.tv/helix/streams?user_login=${encodeURIComponent(
 								login
 							)}`;
@@ -444,15 +662,15 @@ export default {
 							const streamsJson: any = await streamsRes.json();
 							const data = streamsJson?.data ?? [];
 
+							const baseItems: FeedItemBase[] = [];
 							for (const it of data) {
 								const thumbTemplate = it?.thumbnail_url ?? null;
 								const thumb =
 									typeof thumbTemplate === "string"
 										? thumbTemplate.replace("{width}", "320").replace("{height}", "180")
 										: null;
-								items.push({
+								baseItems.push({
 									platform: "twitch",
-									sourceId: s.id,
 									channelName: it?.user_name ?? s.display_name ?? s.handle,
 									title: it?.title ?? "(no title)",
 									url: `https://www.twitch.tv/${login}`,
@@ -480,9 +698,8 @@ export default {
 								const channelName =
 									user?.display_name ?? s.display_name ?? user?.login ?? s.handle;
 
-								items.push({
+								baseItems.push({
 									platform: "twitch",
-									sourceId: s.id,
 									channelName,
 									title: `${channelName} - Offline`,
 									url: `https://www.twitch.tv/${login}`,
@@ -491,6 +708,13 @@ export default {
 									startAt: null,
 								});
 							}
+
+							for (const base of baseItems) {
+								items.push({ ...base, sourceId: s.id });
+							}
+
+							const ttl = data.length > 0 ? TW_TTL.live : TW_TTL.offline;
+							await writeCache(env, channelCacheKey, baseItems, ttl);
 						} catch (e: any) {
 							errors.push({
 								platform: "twitch",
@@ -521,11 +745,7 @@ export default {
 					errors,
 				};
 
-				await env.STREAM_FEED_DB.prepare(
-					"INSERT INTO cache_kv (key, payload_json, fetched_at) VALUES (?, ?, datetime('now')) ON CONFLICT(key) DO UPDATE SET payload_json=excluded.payload_json, fetched_at=datetime('now')"
-				)
-					.bind(cacheKey, JSON.stringify(payload))
-					.run();
+				await writeCache(env, cacheKey, payload, ttlSec);
 
 				return json(payload);
 			} catch (err: any) {

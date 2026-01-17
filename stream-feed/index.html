@@ -56,8 +56,60 @@
                         <span class="toggle-slider"></span>
                         <span class="toggle-label">Live Only</span>
                     </label>
+                    <button id="settings-toggle" class="icon-btn" aria-label="Settings">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                            </path>
+                        </svg>
+                    </button>
                 </div>
             </nav>
+
+            <div id="settings-panel" class="settings-wrapper hidden">
+                <section class="control-panel">
+                    <div class="panel-card">
+                        <h2 class="panel-title">Login</h2>
+                        <p class="panel-desc">ID（トークン）でログイン。新規作成も可能。</p>
+                        <div class="panel-row">
+                            <button id="bootstrap-btn" class="primary-btn">Create New ID</button>
+                            <button id="clear-token-btn" class="ghost-btn">Logout</button>
+                        </div>
+                        <div class="panel-row">
+                            <input id="token-input" class="text-input" type="text" placeholder="Paste ID (token)">
+                            <button id="save-token-btn" class="ghost-btn">Login</button>
+                        </div>
+                        <div class="panel-meta">
+                            <span>Active ID</span>
+                            <span class="token-actions">
+                                <span id="active-token">Not set</span>
+                                <button id="copy-id-btn" class="mini-btn" type="button">Copy ID</button>
+                            </span>
+                        </div>
+                        <div class="panel-meta">
+                            <span>Read Token</span>
+                            <span class="token-actions">
+                                <span id="read-token">--</span>
+                                <button id="copy-read-url-btn" class="mini-btn" type="button">Copy Read URL</button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="panel-card">
+                        <h2 class="panel-title">Add Channel</h2>
+                        <p class="panel-desc">URLを貼るだけで追加できます（YouTube/Twitch）。</p>
+                        <form id="add-channel-form" class="panel-form">
+                            <input id="channel-url" class="text-input" type="text"
+                                placeholder="https://www.youtube.com/channel/UC... or https://twitch.tv/..." required>
+                            <input id="channel-name" class="text-input" type="text"
+                                placeholder="Display name (optional)">
+                            <button class="primary-btn" type="submit">Add / Update</button>
+                        </form>
+                        <p id="channel-result" class="panel-result"></p>
+                    </div>
+                </section>
+            </div>
         </header>
 
         <main id="feed-container" class="feed-grid">
