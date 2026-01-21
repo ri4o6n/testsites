@@ -1,0 +1,59 @@
+/*
+ * Global Theme: Local Supporter Finder (Refined & Friendly)
+ * 
+ * デザイン思想: 「生活空間に溶け込む、温かみのある実用ツール」
+ * - 無機質さを排除し、人間味のある柔らかい質感を追求
+ * - セージグリーンと暖色系のホワイトを基調に
+ */
+
+:root {
+    /* Colors - 温かみのあるクリームベージュ基調 */
+    --clr-bg: #FDFCF8;
+    /* 暖かく明るいベースカラー */
+    --clr-surface: #FFFFFF;
+    --clr-text: #4A4A48;
+    /* 少しブラウン寄りのダークグレー */
+    --clr-text-muted: #8E8E8A;
+    --clr-border: #E8E5DF;
+
+    /* Accent - 安心感と清潔感のあるセージグリーン */
+    --clr-accent: #6B8E7D;
+    /* Sage Green */
+    --clr-accent-soft: rgba(107, 142, 125, 0.1);
+
+    /* Typography */
+    --font-main: 'Outfit', 'Noto Sans JP', sans-serif;
+    /* 少し丸みのあるOutfitを採用 */
+    --leading: 1.7;
+    --tracking: 0.01em;
+
+    /* Spacing */
+    --space-xs: 0.5rem;
+    --space-s: 1rem;
+    --space-m: 1.5rem;
+    --space-l: 3.5rem;
+    --space-xl: 6rem;
+
+    /* Radius - 角丸を大きくし、親しみやすさを出す */
+    --radius-s: 8px;
+    --radius-m: 16px;
+    --radius-l: 24px;
+
+    /* Shadow - 非常にソフトで広がりのある影 */
+    --shadow-soft: 0 4px 20px rgba(107, 142, 125, 0.08);
+
+    /* Layout */
+    --max-width: 800px;
+}
+
+/* ユーザーの要望によりライトモードに固定（または最適化） */
+@media (prefers-color-scheme: dark) {
+
+    /* 
+     * 本来はダークモードも定義するが、今回は「親しみやすさ」を優先した 
+     * ライトモードを基調とするため、あえてコントラストを強くしすぎない調整に留める
+     */
+    :root {
+        --clr-bg: #FDFCF8;
+    }
+}

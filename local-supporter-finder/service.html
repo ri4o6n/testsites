@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サービス内容と料金 | Service</title>
+    <link rel="stylesheet" href="./assets/theme.css">
+    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        .service-list {
+            margin-top: var(--space-l);
+            display: grid;
+            gap: var(--space-m);
+        }
+
+        .service-item {
+            padding: var(--space-m);
+            border-left: 2px solid var(--clr-accent);
+            background-color: var(--clr-surface);
+        }
+
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-m);
+            margin-top: var(--space-l);
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-m);
+        }
+
+        .flow-num {
+            background-color: var(--clr-accent);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container nav">
+            <a href="index.html" class="logo">Local Supporter Finder</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Search</a></li>
+                <li><a href="service.html" class="active">Service</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="apply.html">Apply</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="section animate-fade-in" style="max-width: 700px; margin: 0 auto;">
+            <h1>サービス内容と料金</h1>
+
+            <div style="margin-top: var(--space-l);">
+                <h2>サポーターができること</h2>
+                <div class="service-list">
+                    <div class="service-item">
+                        <strong>スマホ・PCの基本設定</strong>
+                        <p class="text-muted">新しい機器の開封から初期設定、Wi-Fiの接続などのお手伝い。</p>
+                    </div>
+                    <div class="service-item">
+                        <strong>アプリの導入と操作説明</strong>
+                        <p class="text-muted">LINEやZoomなどのアプリをいっしょにインストールし、使い方を丁寧に説明します。</p>
+                    </div>
+                    <div class="service-item">
+                        <strong>「これどうやるの？」への回答</strong>
+                        <p class="text-muted">写真の送り方、メールの見方など、日常の小さな疑問をその場で解決します。</p>
+                    </div>
+                </div>
+
+                <h2 style="margin-top: var(--space-l);">サポーターができないこと</h2>
+                <ul style="margin-left: var(--space-m); margin-top: var(--space-s);">
+                    <li>ハードウェアの分解修理（スマホの画面割れ修理など）</li>
+                    <li>契約の完全代行、パスワードの直接管理</li>
+                    <li>多額の送金を伴う操作の代行</li>
+                </ul>
+
+                <h2 style="margin-top: var(--space-l);">料金の目安</h2>
+                <div class="card" style="border-left: 4px solid var(--clr-accent);">
+                    <p style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">¥2,000 / 1h（目安）</p>
+                    <p class="text-muted">※サポーターや内容によって変動する場合があります。現在は正式な決済機能はなく、指標としての金額です。</p>
+                </div>
+
+                <h2 style="margin-top: var(--space-l);">利用の流れ</h2>
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="flow-num">1</div>
+                        <div>
+                            <strong>地域で探す</strong>
+                            <p class="text-muted">お住まいの地域に対応しているサポーターを検索します。</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-num">2</div>
+                        <div>
+                            <strong>詳細を確認</strong>
+                            <p class="text-muted">サポーターの得意分野や活動状況を確認します。</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-num">3</div>
+                        <div>
+                            <strong>相談・調整（将来）</strong>
+                            <p class="text-muted">運営を通じて、または直接サポーターと日程などを相談します。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer container">
+        <p class="text-center text-muted">&copy; 2026 Local Supporter Finder. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地域のサポーター探し | Search</title>
+    <link rel="stylesheet" href="./assets/theme.css">
+    <link rel="stylesheet" href="./assets/style.css">
+    <!-- Google Fonts: Inter & Noto Sans JP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container nav">
+            <a href="index.html" class="logo">Local Supporter Finder</a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Search</a></li>
+                <li><a href="service.html">Service</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="apply.html">Apply</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="section">
+            <h1 class="animate-fade-in">地域のサポーターを探す</h1>
+            <p class="text-center text-muted animate-fade-in" style="margin-bottom: var(--space-l);">
+                デジタルのお困りごとを、お近くのサポーターが手助けします。<br>
+                まずは、お住まいの地域を入力してください。
+            </p>
+
+            <form id="search-form" class="search-form animate-fade-in">
+                <div class="input-group">
+                    <input type="text" id="search-input" placeholder="例：渋谷区、横浜市、新宿など" aria-label="地域を入力"
+                        autocomplete="off">
+                    <button type="submit" class="btn btn-primary">検索</button>
+                </div>
+            </form>
+
+            <div id="results-grid" class="results-grid">
+                <!-- JSでカードが挿入されます -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer container">
+        <p class="text-center text-muted">&copy; 2026 Local Supporter Finder. All rights reserved.</p>
+    </footer>
+
+    <script src="./assets/app.js"></script>
+</body>
+
+</html>
