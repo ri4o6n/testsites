@@ -1,0 +1,134 @@
+/* Theme and Variables */
+:root {
+    --bg-color: #fafafa;
+    /* オフホワイト */
+    --text-main: #3a3a3a;
+    /* 柔らかいダークグレー */
+    --text-sub: #888888;
+    /* 補助テキスト */
+    --accent-color: #6c7a89;
+    /* 彩度を抑えた寒色（スチールブルー系） */
+    --border-color: #eaeaea;
+    /* 境界線 */
+    --canvas-bg: #ffffff;
+    /* キャンバス背景 */
+
+    --font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Meiryo", sans-serif;
+
+    --spacing-xs: 8px;
+    --spacing-sm: 16px;
+    --spacing-md: 32px;
+    --spacing-lg: 64px;
+
+    --radius-sm: 4px;
+    --radius-md: 8px;
+}
+
+/* Reset & Base Styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Layout */
+.container {
+    width: 100%;
+    max-width: 900px;
+    padding: var(--spacing-lg) var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    margin: 0 0 var(--spacing-xs) 0;
+}
+
+header p {
+    font-size: 0.9rem;
+    color: var(--text-sub);
+    margin: 0;
+    letter-spacing: 0.05em;
+}
+
+/* Upload Section */
+.upload-section {
+    margin-bottom: var(--spacing-md);
+}
+
+.upload-button {
+    display: inline-block;
+    padding: 12px 32px;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.upload-button:hover {
+    background-color: #f2f2f2;
+}
+
+.upload-button input[type="file"] {
+    display: none;
+}
+
+/* Canvas Section */
+.canvas-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.canvas-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    min-height: 400px;
+    background-color: var(--canvas-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-sm);
+}
+
+.placeholder-text {
+    color: var(--text-sub);
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    pointer-events: none;
+}
+
+canvas {
+    max-width: 100%;
+    height: auto;
+    display: none;
+    /* 初期状態は非表示 */
+    border-radius: 2px;
+}

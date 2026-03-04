@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toy Camera - レトロ画像処理</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:,">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Toy Camera</h1>
+            <p>日常を切り取る、静かな画像処理ツール</p>
+        </header>
+
+        <main>
+            <section class="upload-section">
+                <label for="image-upload" class="upload-button">
+                    画像を選択
+                    <input type="file" id="image-upload" accept="image/jpeg, image/png, image/webp">
+                </label>
+            </section>
+
+            <section class="canvas-section">
+                <div class="canvas-wrapper">
+                    <canvas id="preview-canvas"></canvas>
+                    <div id="placeholder" class="placeholder-text">画像ファイルを選択してください</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

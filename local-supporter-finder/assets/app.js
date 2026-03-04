@@ -9,6 +9,26 @@ class SupporterManager {
         this.supporters = [];
         this.filteredSupporters = [];
         this.dataUrl = './data/supporters.json';
+        this.setupModal();
+    }
+
+    /**
+     * モーダル要素のセットアップ
+     */
+    setupModal() {
+        this.modalOverlay = document.getElementById('modal-overlay');
+        this.modalContent = document.getElementById('modal-content');
+        this.closeBtn = document.getElementById('modal-close');
+
+        if (this.closeBtn) {
+            this.closeBtn.addEventListener('click', () => this.closeModal());
+        }
+
+        if (this.modalOverlay) {
+            this.modalOverlay.addEventListener('click', (e) => {
+                if (e.target === this.modalOverlay) this.closeModal();
+            });
+        }
     }
 
     /**
@@ -82,7 +102,62 @@ class SupporterManager {
             card.classList.add('animate-fade-in');
             card.style.animationDelay = `${index * 0.05}s`;
             resultsContainer.appendChild(card);
+
+            // 詳細ボタンのイベントリスナー
+            const detailBtn = card.querySelector('.btn-detail');
+            detailBtn.addEventListener('click', () => this.showDetail(sup.id));
         });
+    }
+
+    /**
+     * 詳細表示処理
+     */
+    showDetail(id) {
+        const sup = this.supporters.find(s => s.id === id);
+        if (!sup) return;
+
+        this.modalContent.innerHTML = `
+            <div class="modal-content animate-fade-in">
+                <section>
+                    <span class="tag">${this.escape(sup.modes.join(' / '))}</span>
+                    <h2 style="margin-top: var(--space-s);">${this.escape(sup.displayName)} さん</h2>
+                    <p class="text-muted">対応地域: ${sup.areas.join('、')}</p>
+                </section>
+
+                <section>
+                    <h3>サポーターからのメッセージ</h3>
+                    <p>${this.escape(sup.detailedNote || sup.note)}</p>
+                </section>
+
+                <section>
+                    <h3>得意なカテゴリ</h3>
+                    <div class="card-tags">
+                        ${sup.categories.map(cat => `<span class="tag" style="background: var(--clr-bg); color: var(--clr-text-muted);">${this.escape(cat)}</span>`).join('')}
+                    </div>
+                </section>
+
+                ${sup.experience ? `
+                <section>
+                    <h3>これまでの実績・経験</h3>
+                    <div class="experience-box">
+                        ${this.escape(sup.experience)}
+                    </div>
+                </section>
+                ` : ''}
+
+                <section style="margin-top: var(--space-l);">
+                    <a href="apply.html" class="btn btn-primary" style="width: 100%;">この人に相談してみる（準備中）</a>
+                </section>
+            </div>
+        `;
+
+        this.modalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // 背後のスクロール防止
+    }
+
+    closeModal() {
+        this.modalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
     }
 
     /**
@@ -104,7 +179,7 @@ class SupporterManager {
                 ${sup.categories.map(cat => `<span class="tag" style="background: var(--clr-bg); color: var(--clr-text-muted);">${this.escape(cat)}</span>`).join('')}
             </div>
             <p class="card-note">${this.escape(sup.note)}</p>
-            <button class="btn btn-outline" style="width: 100%; margin-top: var(--space-s);">詳細を見る</button>
+            <button class="btn btn-outline btn-detail" style="width: 100%; margin-top: var(--space-s);">詳細を見る</button>
         `;
 
         return card;
