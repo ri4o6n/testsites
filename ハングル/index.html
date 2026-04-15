@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hangul Study Room</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">MUJI inspired · GitHub Pages ready</p>
+        <h1>ハングルを静かに積み上げる、段階学習ツール。</h1>
+        <p class="hero-text">
+          基本母音から短文までを段階的に出題し、英字入力とハングル入力を自動判定します。
+          学習履歴はブラウザに保存され、弱点タグと構成要素ごとの傾向を復習に使えます。
+        </p>
+      </div>
+      <div class="hero-panel">
+        <div class="metric">
+          <span class="metric-label">全体正答率</span>
+          <strong id="hero-accuracy">0%</strong>
+        </div>
+        <div class="metric">
+          <span class="metric-label">復習キュー</span>
+          <strong id="hero-review-count">0問</strong>
+        </div>
+        <div class="metric">
+          <span class="metric-label">弱点カテゴリ</span>
+          <strong id="hero-weakness">-</strong>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-grid">
+      <section class="panel practice-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="section-label">Practice</p>
+            <h2>学習セッション</h2>
+          </div>
+          <button id="new-question-button" class="button button-secondary" type="button">次の問題</button>
+        </div>
+
+        <div class="control-grid">
+          <label class="control">
+            <span>出題モード</span>
+            <select id="mode-select">
+              <option value="mixed">ミックス</option>
+              <option value="reading">読む</option>
+              <option value="writing">書く</option>
+            </select>
+          </label>
+          <label class="control">
+            <span>レベル</span>
+            <select id="level-select"></select>
+          </label>
+          <label class="control control-checkbox">
+            <input id="review-toggle" type="checkbox">
+            <span>復習キューを優先</span>
+          </label>
+        </div>
+
+        <article class="question-card">
+          <div class="question-meta">
+            <span id="question-badge" class="badge">-</span>
+            <span id="question-mode" class="subtle">-</span>
+          </div>
+          <p id="question-instruction" class="question-instruction">読み込み中...</p>
+          <div id="question-prompt" class="question-prompt">-</div>
+          <p id="question-support" class="question-support"></p>
+        </article>
+
+        <form id="answer-form" class="answer-form">
+          <label class="answer-label" for="answer-input">回答</label>
+          <input
+            id="answer-input"
+            class="answer-input"
+            name="answer"
+            type="text"
+            autocomplete="off"
+            placeholder="ローマ字でもハングルでも入力できます"
+          >
+          <div class="button-row">
+            <button class="button button-primary" type="submit">判定する</button>
+            <button id="show-answer-button" class="button button-secondary" type="button">答えを見る</button>
+          </div>
+        </form>
+
+        <section id="feedback-panel" class="feedback-panel" aria-live="polite">
+          <p class="feedback-empty">問題に答えると、ここに判定と分析が出ます。</p>
+        </section>
+      </section>
+
+      <aside class="sidebar">
+        <section class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label">Progress</p>
+              <h2>学習サマリー</h2>
+            </div>
+          </div>
+          <div id="summary-grid" class="summary-grid"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label">Weakness</p>
+              <h2>弱点分析</h2>
+            </div>
+          </div>
+          <div id="weakness-list" class="stack-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label">Review</p>
+              <h2>復習キュー</h2>
+            </div>
+          </div>
+          <div id="review-list" class="stack-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label">Log</p>
+              <h2>最近の回答</h2>
+            </div>
+          </div>
+          <div id="history-list" class="stack-list"></div>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
