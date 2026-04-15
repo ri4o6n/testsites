@@ -62,8 +62,14 @@ const ROMAN_TOKEN_RULES = [
 ];
 
 const TYPE_LABELS = { syllable: "文字", word: "単語", phrase: "短文" };
+const AUTO_ADVANCE_DELAY_MS = 900;
+const MOBILE_MEDIA_QUERY = "(max-width: 720px)";
 
 const elements = {
+  practicePanel: document.querySelector(".practice-panel"),
+  sidebar: document.querySelector(".sidebar"),
+  mobileTabs: [...document.querySelectorAll(".mobile-tab")],
+  sidebarPanels: [...document.querySelectorAll(".sidebar-panel")],
   modeSelect: document.querySelector("#mode-select"),
   levelSelect: document.querySelector("#level-select"),
   reviewToggle: document.querySelector("#review-toggle"),
@@ -83,11 +89,14 @@ const elements = {
   historyList: document.querySelector("#history-list"),
   heroAccuracy: document.querySelector("#hero-accuracy"),
   heroReviewCount: document.querySelector("#hero-review-count"),
-  heroWeakness: document.querySelector("#hero-weakness")
+  heroWeakness: document.querySelector("#hero-weakness"),
+  mobileAccuracy: document.querySelector("#mobile-accuracy"),
+  mobileReviewCount: document.querySelector("#mobile-review-count"),
+  mobileWeakness: document.querySelector("#mobile-weakness")
 };
 
 const enrichedQuestions = QUESTION_BANK.map((item, index) => enrichQuestion(item, index));
-const state = { currentQuestion: null, storage: loadState() };
+const state = { currentQuestion: null, storage: loadState(), mobileTab: "practice" };
 
 init();
 
@@ -99,7 +108,12 @@ function init() {
   elements.modeSelect.addEventListener("change", nextQuestion);
   elements.levelSelect.addEventListener("change", nextQuestion);
   elements.reviewToggle.addEventListener("change", nextQuestion);
+  elements.mobileTabs.forEach((tab) => {
+    tab.addEventListener("click", () => setMobileTab(tab.dataset.tabTarget));
+  });
+  globalThis.matchMedia(MOBILE_MEDIA_QUERY).addEventListener("change", syncResponsiveLayout);
   renderDashboard();
+  syncResponsiveLayout();
   nextQuestion();
 }
 
@@ -147,7 +161,7 @@ function buildPromptVariant(question, mode) {
     practiceMode: "writing",
     answerType: "korean",
     prompt: question.meaning,
-    support: `読み: ${question.reading} / ハングルまたはローマ字で回答できます。`
+    support: `読み: ${question.reading} / ハングルで入力してください。`
   };
 }
 
@@ -157,10 +171,14 @@ function renderQuestion() {
   elements.questionMode.textContent = question.practiceMode === "reading" ? "読む練習" : "書く練習";
   elements.questionInstruction.textContent = question.practiceMode === "reading"
     ? (question.answerType === "reading" ? "表示されたハングルの読みを答えてください。" : "表示されたハングルの意味を答えてください。")
-    : "日本語の意味を見て、対応するハングルを答えてください。";
+    : "日本語の意味を見て、対応するハングルをハングルで答えてください。";
   elements.questionPrompt.textContent = question.prompt;
   elements.questionSupport.textContent = question.support;
-  elements.answerInput.placeholder = question.answerType === "meaning" ? "意味を日本語で入力" : "ローマ字でもハングルでも入力できます";
+  elements.answerInput.placeholder = question.answerType === "meaning"
+    ? "意味を日本語で入力"
+    : question.practiceMode === "writing"
+      ? "ハングルで入力してください"
+      : "ローマ字でもハングルでも入力できます";
   elements.answerInput.value = "";
   elements.answerInput.focus();
 }
@@ -177,6 +195,13 @@ function handleSubmit(event) {
   persistAttempt(result);
   renderFeedback(result);
   renderDashboard();
+  if (result.correct) {
+    globalThis.setTimeout(() => {
+      if (state.currentQuestion?.id === result.questionId) {
+        nextQuestion();
+      }
+    }, AUTO_ADVANCE_DELAY_MS);
+  }
 }
 
 function showAnswer() {
@@ -227,12 +252,9 @@ function judgeAnswer(question, userInput) {
   }
 
   if (inputType === "latin") {
-    const inputTokens = normalizeRomanTokens(userInput);
-    const correctSets = [question.romanTokens, ...question.readingVariantTokens];
-    result.correct = correctSets.some((tokens) => tokenArrayEquals(tokens, inputTokens));
-    result.note = result.correct ? "英字入力を内部で正規化して採点しました。" : `正解は「${question.korean}」で、読みは「${question.reading}」です。`;
-    result.componentResults.push({ key: "romanization", correct: result.correct });
-    return applyUniformResults(result, result.correct);
+    result.note = "書き問題はハングル入力のみです。ハングルで入力してください。";
+    result.componentResults.push({ key: "input-method", correct: false });
+    return applyUniformResults(result, false);
   }
 
   result.note = "文字種を判定できませんでした。";
@@ -351,6 +373,42 @@ function renderDashboard() {
   elements.heroAccuracy.textContent = `${metrics.overallAccuracy}%`;
   elements.heroReviewCount.textContent = `${state.storage.reviewQueue.length}問`;
   elements.heroWeakness.textContent = metrics.weakCategories[0]?.label ?? "-";
+  elements.mobileAccuracy.textContent = `${metrics.overallAccuracy}%`;
+  elements.mobileReviewCount.textContent = `${state.storage.reviewQueue.length}`;
+  elements.mobileWeakness.textContent = metrics.weakCategories[0]?.label ?? "-";
+}
+
+function setMobileTab(tabName) {
+  state.mobileTab = tabName;
+  if (!globalThis.matchMedia(MOBILE_MEDIA_QUERY).matches) {
+    return;
+  }
+  elements.mobileTabs.forEach((tab) => {
+    tab.classList.toggle("is-active", tab.dataset.tabTarget === tabName);
+  });
+
+  const isPractice = tabName === "practice";
+  elements.practicePanel.classList.toggle("is-mobile-hidden", !isPractice);
+  elements.sidebar.style.display = isPractice ? "none" : "grid";
+  elements.sidebarPanels.forEach((panel) => {
+    panel.classList.toggle("is-active", panel.dataset.tabPanel === tabName);
+  });
+}
+
+function syncResponsiveLayout() {
+  const isMobile = globalThis.matchMedia(MOBILE_MEDIA_QUERY).matches;
+  if (!isMobile) {
+    elements.practicePanel.classList.remove("is-mobile-hidden");
+    elements.sidebar.style.display = "";
+    elements.mobileTabs.forEach((tab) => {
+      tab.classList.toggle("is-active", tab.dataset.tabTarget === state.mobileTab);
+    });
+    elements.sidebarPanels.forEach((panel) => {
+      panel.classList.remove("is-active");
+    });
+    return;
+  }
+  setMobileTab(state.mobileTab);
 }
 
 function buildMetrics(history) {
@@ -493,6 +551,7 @@ function summarizeIncorrectItems(items, prefix) {
 }
 
 function humanizeKey(key) {
+  if (key === "input-method") return "入力方式";
   if (key === "romanization") return "ローマ字変換";
   if (key.startsWith("initial:")) return `初声 ${key.replace("initial:", "")}`;
   if (key.startsWith("vowel:")) return `母音 ${key.replace("vowel:", "")}`;

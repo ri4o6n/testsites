@@ -35,6 +35,20 @@
 
     <main class="main-grid">
       <section class="panel practice-panel">
+        <div class="mobile-topbar">
+          <div class="mobile-stat">
+            <span>正答率</span>
+            <strong id="mobile-accuracy">0%</strong>
+          </div>
+          <div class="mobile-stat">
+            <span>復習</span>
+            <strong id="mobile-review-count">0</strong>
+          </div>
+          <div class="mobile-stat">
+            <span>弱点</span>
+            <strong id="mobile-weakness">-</strong>
+          </div>
+        </div>
         <div class="panel-heading">
           <div>
             <p class="section-label">Practice</p>
@@ -94,7 +108,7 @@
       </section>
 
       <aside class="sidebar">
-        <section class="panel">
+        <section class="panel sidebar-panel" data-tab-panel="progress">
           <div class="panel-heading">
             <div>
               <p class="section-label">Progress</p>
@@ -104,7 +118,7 @@
           <div id="summary-grid" class="summary-grid"></div>
         </section>
 
-        <section class="panel">
+        <section class="panel sidebar-panel" data-tab-panel="weakness">
           <div class="panel-heading">
             <div>
               <p class="section-label">Weakness</p>
@@ -114,7 +128,7 @@
           <div id="weakness-list" class="stack-list"></div>
         </section>
 
-        <section class="panel">
+        <section class="panel sidebar-panel" data-tab-panel="review">
           <div class="panel-heading">
             <div>
               <p class="section-label">Review</p>
@@ -124,7 +138,7 @@
           <div id="review-list" class="stack-list"></div>
         </section>
 
-        <section class="panel">
+        <section class="panel sidebar-panel" data-tab-panel="history">
           <div class="panel-heading">
             <div>
               <p class="section-label">Log</p>
@@ -135,6 +149,14 @@
         </section>
       </aside>
     </main>
+
+    <nav class="mobile-tabs" aria-label="補助情報">
+      <button class="mobile-tab is-active" type="button" data-tab-target="practice">Practice</button>
+      <button class="mobile-tab" type="button" data-tab-target="progress">Summary</button>
+      <button class="mobile-tab" type="button" data-tab-target="weakness">Weakness</button>
+      <button class="mobile-tab" type="button" data-tab-target="review">Review</button>
+      <button class="mobile-tab" type="button" data-tab-target="history">Log</button>
+    </nav>
   </div>
 
   <script src="./app.js"></script>
