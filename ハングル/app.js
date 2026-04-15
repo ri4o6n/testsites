@@ -70,6 +70,7 @@ const elements = {
   sidebar: document.querySelector(".sidebar"),
   mobileTabs: [...document.querySelectorAll(".mobile-tab")],
   sidebarPanels: [...document.querySelectorAll(".sidebar-panel")],
+  questionCard: document.querySelector(".question-card"),
   modeSelect: document.querySelector("#mode-select"),
   levelSelect: document.querySelector("#level-select"),
   reviewToggle: document.querySelector("#review-toggle"),
@@ -101,6 +102,7 @@ const state = { currentQuestion: null, storage: loadState(), mobileTab: "practic
 init();
 
 function init() {
+  updateViewportHeight();
   elements.levelSelect.innerHTML = LEVELS.map((level) => `<option value="${level.id}">${level.label}</option>`).join("");
   elements.answerForm.addEventListener("submit", handleSubmit);
   elements.newQuestionButton.addEventListener("click", nextQuestion);
@@ -108,10 +110,14 @@ function init() {
   elements.modeSelect.addEventListener("change", nextQuestion);
   elements.levelSelect.addEventListener("change", nextQuestion);
   elements.reviewToggle.addEventListener("change", nextQuestion);
+  elements.answerInput.addEventListener("focus", handleAnswerFocus);
+  elements.answerInput.addEventListener("blur", handleAnswerBlur);
   elements.mobileTabs.forEach((tab) => {
     tab.addEventListener("click", () => setMobileTab(tab.dataset.tabTarget));
   });
   globalThis.matchMedia(MOBILE_MEDIA_QUERY).addEventListener("change", syncResponsiveLayout);
+  globalThis.addEventListener("resize", updateViewportHeight);
+  globalThis.visualViewport?.addEventListener("resize", handleViewportResize);
   renderDashboard();
   syncResponsiveLayout();
   nextQuestion();
@@ -388,6 +394,9 @@ function setMobileTab(tabName) {
   });
 
   const isPractice = tabName === "practice";
+  if (!isPractice) {
+    document.body.classList.remove("keyboard-active");
+  }
   elements.practicePanel.classList.toggle("is-mobile-hidden", !isPractice);
   elements.sidebar.style.display = isPractice ? "none" : "grid";
   elements.sidebarPanels.forEach((panel) => {
@@ -398,6 +407,7 @@ function setMobileTab(tabName) {
 function syncResponsiveLayout() {
   const isMobile = globalThis.matchMedia(MOBILE_MEDIA_QUERY).matches;
   if (!isMobile) {
+    document.body.classList.remove("keyboard-active");
     elements.practicePanel.classList.remove("is-mobile-hidden");
     elements.sidebar.style.display = "";
     elements.mobileTabs.forEach((tab) => {
@@ -409,6 +419,43 @@ function syncResponsiveLayout() {
     return;
   }
   setMobileTab(state.mobileTab);
+}
+
+function updateViewportHeight() {
+  const viewportHeight = globalThis.visualViewport?.height ?? globalThis.innerHeight;
+  document.documentElement.style.setProperty("--app-height", `${Math.round(viewportHeight)}px`);
+}
+
+function handleViewportResize() {
+  updateViewportHeight();
+  if (!globalThis.matchMedia(MOBILE_MEDIA_QUERY).matches) {
+    return;
+  }
+  const viewportHeight = globalThis.visualViewport?.height ?? globalThis.innerHeight;
+  const keyboardOpen = viewportHeight < globalThis.innerHeight * 0.82;
+  document.body.classList.toggle("keyboard-active", keyboardOpen && state.mobileTab === "practice");
+}
+
+function handleAnswerFocus() {
+  if (!globalThis.matchMedia(MOBILE_MEDIA_QUERY).matches) {
+    return;
+  }
+  document.body.classList.add("keyboard-active");
+  updateViewportHeight();
+  globalThis.setTimeout(() => {
+    elements.questionCard?.scrollIntoView({ block: "start", behavior: "smooth" });
+    elements.answerInput?.scrollIntoView({ block: "center", behavior: "smooth" });
+  }, 120);
+}
+
+function handleAnswerBlur() {
+  if (!globalThis.matchMedia(MOBILE_MEDIA_QUERY).matches) {
+    return;
+  }
+  globalThis.setTimeout(() => {
+    document.body.classList.remove("keyboard-active");
+    updateViewportHeight();
+  }, 120);
 }
 
 function buildMetrics(history) {
