@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLOSET ARCHIVE | AIデジタルクローゼット＆コーディネートジャーナル</title>
+    <meta name="description" content="AIがあなたのコーディネートを解析し、日常の装いを個人アーカイブへと昇華させるデジタルクローゼット＆SNSプラットフォーム。">
+    <!-- グローバルデザインテーマ -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- アプリケーション全体コンテナ -->
+    <div class="app-container">
+        
+        <!-- グローバルヘッダー -->
+        <header class="app-header" id="app-header">
+            <div class="brand-section">
+                <h1>CLOSET ARCHIVE</h1>
+            </div>
+            
+            <!-- ナビゲーションおよびユーティリティ -->
+            <div class="header-controls">
+                <nav class="nav-tabs" id="nav-tabs">
+                    <button class="nav-tab-btn active" data-tab="journal">Journal</button>
+                    <button class="nav-tab-btn" data-tab="closet">Closet</button>
+                    <button class="nav-tab-btn" data-tab="analytics">Analytics</button>
+                    <button class="nav-tab-btn" data-tab="community">Community</button>
+                </nav>
+                
+                <!-- ダークモード切替スイッチ -->
+                <button class="theme-toggle-btn" id="theme-toggle" aria-label="テーマ切り替え">
+                    <svg viewBox="0 0 24 24" id="theme-icon-sun">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- メインコンテンツビュー (SPA) -->
+        <main class="app-main">
+            <!-- 各ビューのセクション。JSからOOPコンポーネントとして動的にHTMLがマウント・レンダリングされる -->
+            <section id="journal-view" class="view-section active"></section>
+            <section id="closet-view" class="view-section"></section>
+            <section id="analytics-view" class="view-section"></section>
+            <section id="community-view" class="view-section"></section>
+        </main>
+    </div>
+
+    <!-- アプリケーションロジック -->
+    <script src="app.js" defer></script>
+</body>
+
+</html>

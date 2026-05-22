@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLOSET ARCHIVE | サービス企画プレゼンテーション</title>
+    <!-- グローバルテーマとフォントの読み込み -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* プレゼンテーションページ専用の上質で静かなデザイン調整 */
+        body {
+            background-color: var(--bg-primary);
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-lg);
+        }
+
+        .presentation-page-container {
+            width: 100%;
+            max-width: 1150px; /* 文字拡大に伴い、画面幅上限を広げて優雅な余白を維持 */
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .presentation-viewport {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            aspect-ratio: 16/10;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .presentation-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: var(--space-xl) var(--space-xxl);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+            background-color: var(--bg-secondary);
+            box-sizing: border-box;
+        }
+
+        .presentation-slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* スライド内構造 */
+        .slide-header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: var(--space-sm);
+        }
+
+        .slide-tag {
+            font-size: 12px; /* 10pxから拡大 */
+            text-transform: uppercase;
+            letter-spacing: 0.18em; /* 視認性向上のためやや広げる */
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .slide-title {
+            font-family: var(--font-title);
+            font-size: 32px; /* 26pxから拡大 */
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            color: var(--text-primary);
+            margin-top: var(--space-xxs);
+        }
+
+        .slide-body {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-md) 0;
+        }
+
+        .slide-body-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+            width: 100%;
+        }
+
+        .slide-body-text h3 {
+            font-size: 20px; /* 16pxから拡大 */
+            font-weight: 600;
+            margin-bottom: var(--space-xs);
+            color: var(--text-primary);
+            border-left: 2px solid var(--accent-color);
+            padding-left: var(--space-xs);
+        }
+
+        .slide-body-text p {
+            font-size: 16px; /* 13pxから拡大 */
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--space-sm);
+        }
+
+        .slide-body-text ul {
+            list-style-type: none;
+            margin-top: var(--space-sm);
+        }
+
+        .slide-body-text li {
+            font-size: 16px; /* 13pxから拡大 */
+            color: var(--text-secondary);
+            position: relative;
+            padding-left: var(--space-md);
+            margin-bottom: var(--space-xs);
+        }
+
+        .slide-body-text li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+        }
+
+        .slide-visual-card {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: var(--space-md);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 14px; /* 12pxから拡大 */
+        }
+
+        .slide-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: var(--space-sm);
+            font-size: 12px; /* 10pxから拡大 */
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        /* テーブル */
+        .slide-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px; /* 12pxから拡大 */
+        }
+
+        .slide-table th {
+            text-align: left;
+            padding: var(--space-xs);
+            border-bottom: 1px solid var(--accent-color);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .slide-table td {
+            padding: var(--space-xs);
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        /* ツールバー */
+        .presentation-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .slide-controls {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .slide-counter {
+            font-family: var(--font-title);
+            font-size: 15px; /* 13pxから拡大 */
+            color: var(--text-secondary);
+            letter-spacing: 0.1em;
+        }
+
+        /* --- 10. A4横印刷（スライド用）スタイル --- */
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 0;
+            }
+
+            body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                height: 100% !important;
+                overflow: hidden !important;
+            }
+
+            .presentation-page-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                display: block !important;
+            }
+
+            .presentation-toolbar,
+            .theme-toggle-btn {
+                display: none !important;
+            }
+
+            .presentation-viewport {
+                border: none !important;
+                box-shadow: none !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                height: auto !important;
+                display: block !important;
+                background-color: #ffffff !important;
+            }
+
+            .presentation-slide {
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                width: 297mm !important;
+                /* A4横幅 */
+                height: 210mm !important;
+                /* A4縦幅 */
+                margin: 0 !important;
+                padding: 15mm !important;
+                /* 余白を狭めてコンテンツ領域を確保 */
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+                /* はみ出しによる改ページを完全に遮断 */
+                background-color: #ffffff !important;
+                position: relative !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                left: auto !important;
+                top: auto !important;
+            }
+
+            .slide-title {
+                color: #000000 !important;
+                font-size: 28px !important; /* 印刷用タイトルサイズ適正化 */
+            }
+
+            .slide-body-text h3 {
+                font-size: 18px !important;
+            }
+
+            .slide-body-text p,
+            .slide-body-text li {
+                color: #333333 !important;
+                font-size: 14px !important; /* 印刷用本文サイズ適正化 */
+            }
+
+            .slide-visual-card {
+                background-color: #f5f5f4 !important;
+                border: 1px solid #d6d3d1 !important;
+                font-size: 12px !important;
+            }
+        }
+
+        /* --- 11. スマートフォン対応レスポンシブ表示 --- */
+        @media (max-width: 768px) {
+            body {
+                padding: var(--space-sm);
+                align-items: flex-start;
+            }
+
+            .presentation-page-container {
+                gap: var(--space-sm);
+            }
+
+            .presentation-viewport {
+                aspect-ratio: auto;
+                min-height: 580px; /* 文字サイズ拡大に合わせて最小高を少し高めに調整 */
+            }
+
+            .presentation-slide {
+                padding: var(--space-md);
+            }
+
+            .slide-title {
+                font-size: 24px; /* 20pxから拡大 */
+            }
+
+            .slide-body {
+                padding: var(--space-xs) 0;
+            }
+
+            .slide-body-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-md);
+            }
+
+            .slide-body-text h3 {
+                font-size: 18px; /* 14pxから拡大 */
+            }
+
+            .slide-body-text p,
+            .slide-body-text li {
+                font-size: 14px; /* 12pxから拡大 */
+                line-height: 1.6;
+            }
+
+            .slide-visual-card {
+                padding: var(--space-sm);
+                font-size: 13px; /* 拡大 */
+            }
+
+            .slide-footer {
+                font-size: 11px; /* 9pxから拡大 */
+            }
+
+            .presentation-toolbar {
+                flex-direction: column;
+                gap: var(--space-sm);
+                align-items: stretch;
+            }
+
+            #btn-print-slides {
+                justify-content: center;
+            }
+
+            .slide-controls {
+                justify-content: space-between;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="presentation-page-container">
+
+        <!-- プレゼンテーション本体 -->
+        <div class="presentation-viewport">
+            <div id="slides-container" style="flex-grow: 1; position: relative;">
+                <!-- スライド群はJSから動的に生成されます -->
+            </div>
+        </div>
+
+        <!-- コントロールバー -->
+        <div class="presentation-toolbar">
+            <button id="btn-print-slides" class="btn-secondary"
+                style="font-size: 13px; padding: var(--space-xs) var(--space-sm); display: inline-flex; align-items: center; gap: 6px;">
+                <svg viewBox="0 0 24 24"
+                    style="width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2;">
+                    <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2">
+                    </path>
+                    <rect x="6" y="14" width="12" height="8"></rect>
+                </svg>
+                A4横サイズでPD                // README.mdに完全に則した、極限まで削ぎ落とされつつも右側に具体的な情報量を増やしたスライドデータ
+                this.slides = [
+                    {
+                        tag: 'Title',
+                        title: 'CLOSET ARCHIVE',
+                        content: `
+                            <div style="text-align: center; width:100%; padding-top: var(--space-lg);">
+                                <h2 style="font-family: var(--font-title); font-size: 48px; font-weight: 300; letter-spacing: 0.12em; color: var(--accent-color);">CLOSET ARCHIVE</h2>
+                                <div style="margin-top: 35px; border-top: 1px solid var(--border-color); padding-top: var(--space-md); max-width: 520px; margin-left: auto; margin-right: auto;">
+                                    <p style="font-size: 14px; color: var(--text-muted); letter-spacing:0.06em; text-transform: uppercase; font-weight: 500;">AI Fashion Journal & Digital Closet</p>
+                                    <p style="font-size: 16px; color: var(--text-secondary); margin-top: 14px; line-height: 1.8;">「装いの記録を、個人のアーカイブへ。」<br>日常のコーディネートとワードローブを拡張するプラットフォーム</p>
+                                </div>
+                                <div style="margin-top: 45px; display: flex; justify-content: center; gap: var(--space-xl); border-top: 1px dashed var(--border-color); padding-top: var(--space-md); max-width: 650px; margin-left: auto; margin-right: auto;">
+                                    <div style="text-align: left; flex: 1;">
+                                        <span style="font-size: 12px; color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">01 / Register</span>
+                                        <p style="font-size: 12px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5;">一軍アイテムの撮影と自動登録</p>
+                                    </div>
+                                    <div style="text-align: left; flex: 1;">
+                                        <span style="font-size: 12px; color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">02 / Analyze</span>
+                                        <p style="font-size: 12px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5;">AIによる着用履歴・傾向の自動解析</p>
+                                    </div>
+                                    <div style="text-align: left; flex: 1;">
+                                        <span style="font-size: 12px; color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">03 / Archive</span>
+                                        <p style="font-size: 12px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5;">サステナブルな共有と循環</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                    },
+                    {
+                        tag: 'Issues',
+                        title: 'Current Issues',
+                        content: `
+                            <div class="slide-body-grid">
+                                <div class="slide-body-text">
+                                    <h3>Ephemerality</h3>
+                                    <p>SNSでのコーディネート発信は「その場限りの消費」になりがちで、過剰な承認欲求と自己表現への疲れを生み出しています。</p>
+                                    
+                                    <h3>Dead Storage</h3>
+                                    <p>クローゼット内のアイテムが把握しきれず、多くの服が着用されないままブラックボックス化し、死蔵されています。</p>
+                                </div>
+                                <div class="slide-visual-card" style="justify-content: center; gap: var(--space-xs); text-align: left; padding: var(--space-md);">
+                                    <div style="text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: var(--space-xs); margin-bottom: var(--space-xs);">
+                                        <span style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500;">Wardrobe Reality</span>
+                                        <h4 style="font-size: 38px; color: var(--accent-color); font-weight: 400; margin: 6px 0;">66% <span style="font-size: 14px; color: var(--text-secondary);">Unworn</span></h4>
+                                    </div>
+                                    <div style="font-size: 12px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 8px; line-height: 1.6;">
+                                        <span>・平均所有数100着に対し、1年以内の着用率は30%台</span>
+                                        <span>・所有の把握不足による類似アイテムの重複購入</span>
+                                        <span>・衣服の「刹那的な投稿」と「長期的な死蔵」の二極化</span>
+                                        <span style="font-size: 11px; color: var(--text-muted); margin-top: 6px; line-height: 1.5; border-top: 1px dashed var(--border-color); padding-top: 6px;">
+                                            手持ちの服をデジタル化し着用を記録することで、死蔵を「愛着と分析可能な個人アーカイブ」へ転換します。
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                    },
+                    {
+                        tag: 'Features',
+                        title: 'Service Features',
+                        content: `
+                            <div class="slide-body-grid">
+                                <div class="slide-body-text">
+                                    <h3>Pillars</h3>
+                                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+                                        <li><strong>AI Digital Closet</strong>: 一軍アイテムから手軽にスキャン・自動分類し、デジタル化。</li>
+                                        <li><strong>Coordinate Journal</strong>: 天気や気分をタグ付けし、公開範囲（非公開〜限定公開）を自己制御。</li>
+                                        <li><strong>Style Analytics</strong>: 長期的な着用履歴から、よく着る色やシルエットの変化を客観的ビジュアル化。</li>
+                                        <li><strong>Style Recommendations</strong>: ユーザー同士で実アイテムに基づく匿名スタイリングを相互提案。</li>
+                                    </ul>
+                                </div>
+                                <div class="slide-visual-card" style="justify-content: center; gap: var(--space-xs); border-style: dashed; border-color: var(--accent-color); padding: var(--space-lg);">
+                                    <div style="text-align: center; margin-bottom: 8px;">
+                                        <span style="font-size: 12px; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">Personal Archive Experience</span>
+                                    </div>
+                                    <div style="font-size: 12px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 10px; line-height: 1.5;">
+                                        <span><strong>Flexible Visibility Mode</strong><br><span style="color: var(--text-muted); font-size: 11px;">完全非公開の「自分用日記」から「お気に入り共鳴者限定公開」まで自在にコントロール可能。</span></span>
+                                        <span><strong>Low Barrier Smart scan</strong><br><span style="color: var(--text-muted); font-size: 11px;">手持ちの服すべてではなく、よく着る「一軍アイテム」だけのミニマムスタートに対応。</span></span>
+                                        <span><strong>Silent Mutual Suggestion</strong><br><span style="color: var(--text-muted); font-size: 11px;">いいね数を排した「ワードローブ構成」を通した静かでサステナブルな着回し提案。</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                    },
+                    {
+                        tag: 'Technology',
+                        title: 'Technical & Data',
+                        content: `
+                            <div class="slide-body-grid">
+                                <div class="slide-body-text">
+                                    <h3>Computer Vision</h3>
+                                    <p>コーディネート写真からアイテム種別、カラー、シルエット、レイヤー構成をAIが自動抽出。クローゼットDBと自動照合します。</p>
+                                    
+                                    <h3>Predictive Analytics</h3>
+                                    <p>蓄積された着用データから、着用頻度、組み合わせパターン、長期的なスタイルの変遷を多角的に解析します。</p>
+                                </div>
+                                <div class="slide-visual-card" style="font-size: 12px; justify-content: center; gap: var(--space-xs); padding: var(--space-md);">
+                                    <div style="font-weight: 600; color: var(--accent-color); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; margin-bottom: 4px;">ICT System Flow</div>
+                                    <div style="display: flex; flex-direction: column; gap: 6px; border-left: 2px solid var(--accent-color); padding-left: var(--space-xs); color: var(--text-secondary); line-height: 1.4;">
+                                        <span>① <strong>Photo Upload</strong>: 日々のスナップからスマホで手軽にアップロード</span>
+                                        <span>② <strong>AI Segmentation</strong>: オブジェクト検出・衣服セグメンテーション（カテゴリ、カラー、特徴抽出）</span>
+                                        <span>③ <strong>DB Matching</strong>: クローゼット内の登録済みアイテムと自動照合・着用回数の加算</span>
+                                        <span>④ <strong>Pattern Mining</strong>: 着用統計、死蔵傾向、シルエットやカラーの遷移データ可視化</span>
+                                    </div>
+                                    <div style="border-top: 1px dashed var(--border-color); padding-top: var(--space-sm); color: var(--text-muted); font-size: 11px; line-height: 1.5; margin-top: 4px;">
+                                        <strong>AI Analysis Engines</strong><br>
+                                        ・オブジェクトセグメンテーション（衣服領域検出）<br>
+                                        ・カラーパターンマッチング & 特徴量類似度検索
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                    },
+                    {
+                        tag: 'Differentiation',
+                        title: 'Competitor Analysis',
+                        content: `
+                            <table class="slide-table" style="width: 100%; height: 100%; font-size: 13px;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 25%; font-size: 13px; padding: var(--space-xs);">Comparison</th>
+                                        <th style="width: 37%; font-size: 13px; padding: var(--space-xs);">Existing Services</th>
+                                        <th style="width: 38%; font-size: 13px; padding: var(--space-xs);">CLOSET ARCHIVE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: var(--space-xs);"><strong>VS. SNS (Instagram etc.)</strong></td>
+                                        <td style="font-size: 12px; line-height: 1.5; padding: var(--space-xs);">
+                                            ・コーデ「投稿」が目的の一時的消費<br>
+                                            ・タイムライン形式で長期データは埋もれる<br>
+                                            ・過度な承認欲求と自己表現の疲れ
+                                        </td>
+                                        <td style="font-size: 12px; line-height: 1.5; padding: var(--space-xs);">
+                                            ・クローゼットと着用履歴を網羅した記録<br>
+                                            ・長期的に振り返り、蓄積できる個人アーカイブ<br>
+                                            ・「いいね」を廃した「装いの思想」による対話
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: var(--space-xs);"><strong>VS. Closet Apps</strong></td>
+                                        <td style="font-size: 12px; line-height: 1.5; padding: var(--space-xs);">
+                                            ・服の「管理・整理・効率化」が主目的<br>
+                                            ・在庫把握にとどまり、記録や表現がしにくい<br>
+                                            ・個人完結型でコミュニティや共有がない
+                                        </td>
+                                        <td style="font-size: 12px; line-height: 1.5; padding: var(--space-xs);">
+                                            ・服と生活の関係を「記録・表現」すること<br>
+                                            ・着用頻度や長期スタイル変化を客観分析<br>
+                                            ・自分のワードローブ自体をコミュニティで共有
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        `
+                    },
+                    {
+                        tag: 'Business',
+                        title: 'Business Model',
+                        content: `
+                            <table class="slide-table" style="width: 100%; height: 100%; font-size: 13px;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 25%; font-size: 13px; padding: var(--space-xs);">Model</th>
+                                        <th style="width: 35%; font-size: 13px; padding: var(--space-xs);">Mechanism</th>
+                                        <th style="width: 40%; font-size: 13px; padding: var(--space-xs);">Value Proposition</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: var(--space-xs);"><strong>Freemium</strong></td>
+                                        <td style="font-size: 12px; line-height: 1.5; padding: var(--space-xs);">アイテム登録枠無制限化と、高度なAIスタイル分析（パーソナルカラー・骨格変遷・着回し提案）の提供。</td>
+                                        <td style="font-size: 12px; line-height: 1.5; padding: var(--space-xs);">個人のクローゼット分析を深化させたいコアユーザーからの安定的サブスクリプション（月額480円）。</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: var(--space-xs);"><strong>Affiliate</strong></td>
+                                        <td style="font-size: 12px; line-height: 1.5; padding: var(--space-xs);">コミュニティ内の匿名アイテム提案において、提携ブランドのECリンクを自動紐付け。</td>
+                                        <td style="font-size: 12px; line-height: 1.5; padding: var(--space-xs);">ユーザーのワードローブに基づいた、押し付けがましくないサステナブルな購買体験 of the art を創出（送客手数料5〜10%）。</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: var(--space-xs);"><strong>Data Services</strong></td>
+                                        <td style="font-size: 12px; line-height: 1.5; padding: var(--space-xs);">個人情報を秘匿した形で、アパレル企業へ「購入後の着用実態統計データ」を提供。</td>
+                                        <td style="font-size: 12px; line-height: 1.5; padding: var(--space-xs);">アパレル業界の「過剰生産の最適化」および「生活者の着用実態（ポスト・パチェースデータ）」の可視化。</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        `
+                    },
+                    {
+                        tag: 'Outlook',
+                        title: 'Future Outlook',
+                        content: `
+                            <div class="slide-body-grid">
+                                <div class="slide-body-text">
+                                    <h3>Seamless Integration</h3>
+                                    <p>主要ECや店頭POSとAPI連携し、購入した服が自動的にクローゼットへ同期。登録の手間をゼロにし、日常に溶け込むインフラへ発展します。</p>
+                                    
+                                    <h3>Circular Economy</h3>
+                                    <p>長期間着用していない死蔵アイテムを、クローゼットからワンタップで二次流通市場やブランド回収プログラムへ繋ぐ循環モデルを構築します。</p>
+                                </div>
+                                <div class="slide-visual-card" style="justify-content: center; gap: var(--space-xs); padding: var(--space-lg); border-style: dashed; border-color: var(--accent-color);">
+                                    <h4 style="font-family: var(--font-title); font-size: 13px; color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; margin-bottom: 6px;">Future Roadmap</h4>
+                                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 12px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 6px; text-align: left; line-height: 1.4;">
+                                        <li><strong>・3D & AR Closet</strong>: 仮想空間での衣服試着・デジタルアセット保管</li>
+                                        <li><strong>・AI Stylist</strong>: 気温や予定、気分に連動したスマートな着回し自動提案</li>
+                                        <li><strong>・Fashion Timeline</strong>: 年代ごとのスタイル変化の年表自動生成</li>
+                                        <li><strong>・Circular Market</strong>: 死蔵服を簡単に出品・ブランド回収へ回すシステム</li>
+                                    </ul>
+                                    <div style="border-top: 1px dashed var(--border-color); padding-top: 6px; font-size: 11px; color: var(--text-muted); line-height: 1.5; margin-top: 6px; text-align: left;">
+                                        記憶、生活、思想、自己表現としての服を循環させ、サステナブルなアパレル社会を実現します。
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                    }
+                ];: var(--space-xxs) var(--space-xs);">ユーザーのワードローブに基づいた、押し付けがましくないサステナブルな購買体験の創出（送客手数料5〜10%）。</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Data Services</strong></td>
+                                        <td style="font-size: 10px; line-height: 1.4; padding: var(--space-xxs) var(--space-xs);">個人情報を秘匿した形で、アパレル企業へ「購入後の着用実態統計データ」を提供。</td>
+                                        <td style="font-size: 10px; line-height: 1.4; padding: var(--space-xxs) var(--space-xs);">アパレル業界の「過剰生産の最適化」および「生活者の着用実態（ポスト・パチェースデータ）」の可視化。</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        `
+                    },
+                    {
+                        tag: 'Outlook',
+                        title: 'Future Outlook',
+                        content: `
+                            <div class="slide-body-grid">
+                                <div class="slide-body-text">
+                                    <h3>Seamless Integration</h3>
+                                    <p>主要ECや店頭POSとAPI連携し、購入した服が自動的にクローゼットへ同期。登録の手間をゼロにし、日常に溶け込むインフラへ発展します。</p>
+                                    
+                                    <h3>Circular Economy</h3>
+                                    <p>長期間着用していない死蔵アイテムを、クローゼットからワンタップで二次流通市場やブランド回収プログラムへ繋ぐ循環モデルを構築します。</p>
+                                </div>
+                                <div class="slide-visual-card" style="justify-content: center; gap: var(--space-xs); padding: var(--space-md); border-style: dashed; border-color: var(--accent-color);">
+                                    <h4 style="font-family: var(--font-title); font-size: 11px; color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border-color); padding-bottom: 4px; margin-bottom: 4px;">Future Roadmap</h4>
+                                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 10px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 4px; text-align: left; line-height: 1.3;">
+                                        <li><strong>・3D & AR Closet</strong>: 仮想空間での衣服試着・デジタルアセット保管</li>
+                                        <li><strong>・AI Stylist</strong>: 気温や予定、気分に連動したスマートな着回し自動提案</li>
+                                        <li><strong>・Fashion Timeline</strong>: 年代ごとのスタイル変化の年表自動生成</li>
+                                        <li><strong>・Circular Market</strong>: 死蔵服を簡単に出品・ブランド回収へ回すシステム</li>
+                                    </ul>
+                                    <div style="border-top: 1px dashed var(--border-color); padding-top: 4px; font-size: 9px; color: var(--text-muted); line-height: 1.4; margin-top: 4px; text-align: left;">
+                                        記憶、生活、思想、自己表現としての服を循環させ、サステナブルなアパレル社会を実現します。
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                    }
+                ];
+
+                this.initDom();
+                this.initEvents();
+                this.render();
+            }
+
+            /**
+             * DOM要素の初期化とスライドHTMLの生成
+             */
+            initDom() {
+                const container = document.getElementById('slides-container');
+                const slidesHtml = this.slides.map((s, index) => `
+                    <div class="presentation-slide">
+                        <div class="slide-header">
+                            <span class="slide-tag">${s.tag}</span>
+                            <h2 class="slide-title">${s.title}</h2>
+                        </div>
+                        <div class="slide-body">
+                            ${s.content}
+                        </div>
+                        <div class="slide-footer">
+                            <span>CLOSET ARCHIVE Concept Paper</span>
+                            <span>${index + 1} / ${this.slides.length}</span>
+                        </div>
+                    </div>
+                `).join('');
+
+                container.innerHTML = slidesHtml;
+            }
+
+            /**
+             * 前後のスライドへ遷移する
+             */
+            changeSlide(direction) {
+                const nextIndex = this.currentSlide + direction;
+                if (nextIndex >= 0 && nextIndex < this.slides.length) {
+                    this.currentSlide = nextIndex;
+                    this.render();
+                }
+            }
+
+            /**
+             * 描画の反映
+             */
+            render() {
+                const slides = document.querySelectorAll('.presentation-slide');
+                slides.forEach((slide, index) => {
+                    if (index === this.currentSlide) {
+                        slide.classList.add('active');
+                    } else {
+                        slide.classList.remove('active');
+                    }
+                });
+
+                document.getElementById('slide-counter').textContent = `${this.currentSlide + 1} / ${this.slides.length}`;
+            }
+
+            /**
+             * イベントリスナーの初期設定
+             */
+            initEvents() {
+                // ボタンコントロール
+                document.getElementById('btn-prev-slide').addEventListener('click', () => this.changeSlide(-1));
+                document.getElementById('btn-next-slide').addEventListener('click', () => this.changeSlide(1));
+                document.getElementById('btn-print-slides').addEventListener('click', () => window.print());
+
+                // キーボード制御
+                window.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowRight' || e.key === ' ') {
+                        e.preventDefault();
+                        this.changeSlide(1);
+                    } else if (e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        this.changeSlide(-1);
+                    }
+                });
+            }
+        }
+
+        // DOMロード完了時にコントローラーをインスタンス化
+        document.addEventListener('DOMContentLoaded', () => {
+            new PresentationController();
+        });
+    </script>
+</body>
+
+</html>
