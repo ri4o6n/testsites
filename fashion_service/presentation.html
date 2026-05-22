@@ -374,7 +374,23 @@
                     </path>
                     <rect x="6" y="14" width="12" height="8"></rect>
                 </svg>
-                A4横サイズでPD                // README.mdに完全に則した、極限まで削ぎ落とされつつも右側に具体的な情報量を増やしたスライドデータ
+                A4横サイズでPDF保存
+            </button>
+            <div class="slide-controls">
+                <button id="btn-prev-slide" class="btn-secondary">Prev</button>
+                <span id="slide-counter" class="slide-counter">1 / 7</span>
+                <button id="btn-next-slide" class="btn-secondary">Next</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- プレゼンテーション制御スクリプト -->
+    <script>
+        class PresentationController {
+            constructor() {
+                this.currentSlide = 0;
+                // README.mdに完全に則した、極限まで削ぎ落とされつつも右側に具体的な情報量を増やしたスライドデータ
                 this.slides = [
                     {
                         tag: 'Title',
@@ -532,35 +548,21 @@
                         `
                     },
                     {
-                        tag: 'Business',
-                        title: 'Business Model',
+                        tag: 'Design',
+                        title: 'Design Philosophy',
                         content: `
-                            <table class="slide-table" style="width: 100%; height: 100%; font-size: 13px;">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 25%; font-size: 13px; padding: var(--space-xs);">Model</th>
-                                        <th style="width: 35%; font-size: 13px; padding: var(--space-xs);">Mechanism</th>
-                                        <th style="width: 40%; font-size: 13px; padding: var(--space-xs);">Value Proposition</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="padding: var(--space-xs);"><strong>Freemium</strong></td>
-                                        <td style="font-size: 12px; line-height: 1.5; padding: var(--space-xs);">アイテム登録枠無制限化と、高度なAIスタイル分析（パーソナルカラー・骨格変遷・着回し提案）の提供。</td>
-                                        <td style="font-size: 12px; line-height: 1.5; padding: var(--space-xs);">個人のクローゼット分析を深化させたいコアユーザーからの安定的サブスクリプション（月額480円）。</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: var(--space-xs);"><strong>Affiliate</strong></td>
-                                        <td style="font-size: 12px; line-height: 1.5; padding: var(--space-xs);">コミュニティ内の匿名アイテム提案において、提携ブランドのECリンクを自動紐付け。</td>
-                                        <td style="font-size: 12px; line-height: 1.5; padding: var(--space-xs);">ユーザーのワードローブに基づいた、押し付けがましくないサステナブルな購買体験 of the art を創出（送客手数料5〜10%）。</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: var(--space-xs);"><strong>Data Services</strong></td>
-                                        <td style="font-size: 12px; line-height: 1.5; padding: var(--space-xs);">個人情報を秘匿した形で、アパレル企業へ「購入後の着用実態統計データ」を提供。</td>
-                                        <td style="font-size: 12px; line-height: 1.5; padding: var(--space-xs);">アパレル業界の「過剰生産の最適化」および「生活者の着用実態（ポスト・パチェースデータ）」の可視化。</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="slide-body-grid">
+                                <div class="slide-body-text">
+                                    <h3>Minimal Interface</h3>
+                                    <p>ECサイトのような無駄のないシンプルで整理された構成を採用。広い余白と薄い境界表現により、情報が整理された「静寂なアーカイブ空間」を実現します。</p>
+                                    
+                                    <h3>User Archetypes</h3>
+                                    <p>「日常のコーデ記録を残すアクティブ層」から「いいね等のSNS競争を嫌い、個人的なファッション日記として静かに振り返りたい層」まで、多様な愛着のグラデーションに寄り添います。</p>
+                                </div>
+                                <div class="slide-visual-card" style="padding: 0; overflow: hidden; justify-content: center; align-items: center; border: 1px solid var(--border-color); background-color: var(--bg-primary); display: flex; height: 100%;">
+                                    <img src="screenshot.png" alt="CLOSET ARCHIVE Application Interface Mockup" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                                </div>
+                            </div>
                         `
                     },
                     {
@@ -584,44 +586,6 @@
                                         <li><strong>・Circular Market</strong>: 死蔵服を簡単に出品・ブランド回収へ回すシステム</li>
                                     </ul>
                                     <div style="border-top: 1px dashed var(--border-color); padding-top: 6px; font-size: 11px; color: var(--text-muted); line-height: 1.5; margin-top: 6px; text-align: left;">
-                                        記憶、生活、思想、自己表現としての服を循環させ、サステナブルなアパレル社会を実現します。
-                                    </div>
-                                </div>
-                            </div>
-                        `
-                    }
-                ];: var(--space-xxs) var(--space-xs);">ユーザーのワードローブに基づいた、押し付けがましくないサステナブルな購買体験の創出（送客手数料5〜10%）。</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Data Services</strong></td>
-                                        <td style="font-size: 10px; line-height: 1.4; padding: var(--space-xxs) var(--space-xs);">個人情報を秘匿した形で、アパレル企業へ「購入後の着用実態統計データ」を提供。</td>
-                                        <td style="font-size: 10px; line-height: 1.4; padding: var(--space-xxs) var(--space-xs);">アパレル業界の「過剰生産の最適化」および「生活者の着用実態（ポスト・パチェースデータ）」の可視化。</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        `
-                    },
-                    {
-                        tag: 'Outlook',
-                        title: 'Future Outlook',
-                        content: `
-                            <div class="slide-body-grid">
-                                <div class="slide-body-text">
-                                    <h3>Seamless Integration</h3>
-                                    <p>主要ECや店頭POSとAPI連携し、購入した服が自動的にクローゼットへ同期。登録の手間をゼロにし、日常に溶け込むインフラへ発展します。</p>
-                                    
-                                    <h3>Circular Economy</h3>
-                                    <p>長期間着用していない死蔵アイテムを、クローゼットからワンタップで二次流通市場やブランド回収プログラムへ繋ぐ循環モデルを構築します。</p>
-                                </div>
-                                <div class="slide-visual-card" style="justify-content: center; gap: var(--space-xs); padding: var(--space-md); border-style: dashed; border-color: var(--accent-color);">
-                                    <h4 style="font-family: var(--font-title); font-size: 11px; color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border-color); padding-bottom: 4px; margin-bottom: 4px;">Future Roadmap</h4>
-                                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 10px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 4px; text-align: left; line-height: 1.3;">
-                                        <li><strong>・3D & AR Closet</strong>: 仮想空間での衣服試着・デジタルアセット保管</li>
-                                        <li><strong>・AI Stylist</strong>: 気温や予定、気分に連動したスマートな着回し自動提案</li>
-                                        <li><strong>・Fashion Timeline</strong>: 年代ごとのスタイル変化の年表自動生成</li>
-                                        <li><strong>・Circular Market</strong>: 死蔵服を簡単に出品・ブランド回収へ回すシステム</li>
-                                    </ul>
-                                    <div style="border-top: 1px dashed var(--border-color); padding-top: 4px; font-size: 9px; color: var(--text-muted); line-height: 1.4; margin-top: 4px; text-align: left;">
                                         記憶、生活、思想、自己表現としての服を循環させ、サステナブルなアパレル社会を実現します。
                                     </div>
                                 </div>
