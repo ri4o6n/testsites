@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collatz Checker</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6f6f6f;
+      --line: #e8e8e8;
+      --soft: #f7f7f7;
+      --accent: #111111;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .wrap {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 72px 0 96px;
+    }
+    header {
+      border-left: 2px solid var(--accent);
+      padding-left: 22px;
+      margin-bottom: 48px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+    header p, .note, .hint { color: var(--muted); }
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 28px;
+    }
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+    }
+    input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font: inherit;
+      font-size: 1rem;
+      outline: none;
+    }
+    input:focus { border-color: #999; }
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 14px 20px;
+      background: var(--accent);
+      color: white;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 24px 0;
+    }
+    .stat {
+      background: var(--soft);
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .stat small {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .stat strong {
+      font-size: 1.2rem;
+      word-break: break-word;
+    }
+    .status {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: var(--soft);
+    }
+    .sequence {
+      margin-top: 18px;
+      max-height: 360px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92rem;
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
+    .hidden { display: none; }
+    .error { color: #9b1c1c; }
+    .note {
+      border-top: 1px solid var(--line);
+      padding-top: 22px;
+      font-size: 0.92rem;
+    }
+    a { color: inherit; }
+    @media (max-width: 680px) {
+      .wrap { padding-top: 40px; }
+      .input-row { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      .panel { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <h1>Collatz Checker</h1>
+      <p>任意の正の整数に対してコラッツ操作を繰り返し、1に到達するかを計算で確認するページ。</p>
+    </header>
+
+    <section class="panel">
+      <label for="numberInput">正の整数</label>
+      <div class="input-row">
+        <input id="numberInput" type="text" inputmode="numeric" value="27" placeholder="例: 27" />
+        <button id="runButton" type="button">検証する</button>
+      </div>
+      <p class="hint">JavaScript の BigInt を使うため、通常の整数型を超える大きな値も扱える。</p>
+
+      <div id="result" class="hidden">
+        <div class="stats">
+          <div class="stat"><small>開始値</small><strong id="startValue">-</strong></div>
+          <div class="stat"><small>ステップ数</small><strong id="stepCount">-</strong></div>
+          <div class="stat"><small>途中の最大値</small><strong id="maxValue">-</strong></div>
+        </div>
+        <div id="status" class="status"></div>
+        <div id="sequence" class="sequence"></div>
+      </div>
+
+      <div id="error" class="status error hidden"></div>
+    </section>
+
+    <p class="note">
+      これは入力した個別の整数について計算を実行するもので、コラッツ予想そのものを証明するものではない。
+      安全のため、計算は最大 1,000,000 ステップで打ち切る。
+    </p>
+  </main>
+
+  <script>
+    const input = document.getElementById('numberInput');
+    const button = document.getElementById('runButton');
+    const result = document.getElementById('result');
+    const errorBox = document.getElementById('error');
+    const startValue = document.getElementById('startValue');
+    const stepCount = document.getElementById('stepCount');
+    const maxValue = document.getElementById('maxValue');
+    const status = document.getElementById('status');
+    const sequenceBox = document.getElementById('sequence');
+
+    const STEP_LIMIT = 1_000_000;
+    const DISPLAY_LIMIT = 5000;
+
+    function formatBigInt(value) {
+      return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    function validate(raw) {
+      const value = raw.trim();
+      if (!/^\d+$/.test(value)) throw new Error('0より大きい整数を入力して。');
+      const n = BigInt(value);
+      if (n <= 0n) throw new Error('0より大きい整数を入力して。');
+      return n;
+    }
+
+    function runCollatz() {
+      errorBox.classList.add('hidden');
+      result.classList.add('hidden');
+
+      let n;
+      try {
+        n = validate(input.value);
+      } catch (err) {
+        errorBox.textContent = err.message;
+        errorBox.classList.remove('hidden');
+        return;
+      }
+
+      const start = n;
+      let max = n;
+      let steps = 0;
+      const sequence = [n];
+
+      while (n !== 1n && steps < STEP_LIMIT) {
+        n = n % 2n === 0n ? n / 2n : 3n * n + 1n;
+        if (n > max) max = n;
+        steps++;
+        if (sequence.length < DISPLAY_LIMIT) sequence.push(n);
+      }
+
+      startValue.textContent = formatBigInt(start);
+      stepCount.textContent = steps.toLocaleString('ja-JP');
+      maxValue.textContent = formatBigInt(max);
+
+      if (n === 1n) {
+        status.textContent = `1に到達した。${steps.toLocaleString('ja-JP')}ステップで確認完了。`;
+      } else {
+        status.textContent = `1,000,000ステップ以内には1へ到達しなかった。これは反例を意味するわけではなく、このページの計算上限に達しただけ。`;
+      }
+
+      const shown = sequence.map(formatBigInt).join(' → ');
+      sequenceBox.textContent = sequence.length >= DISPLAY_LIMIT && n !== 1n
+        ? shown + ` → …（表示は先頭${DISPLAY_LIMIT.toLocaleString('ja-JP')}項まで）`
+        : shown;
+
+      result.classList.remove('hidden');
+    }
+
+    button.addEventListener('click', runCollatz);
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') runCollatz();
+    });
+
+    runCollatz();
+  </script>
+</body>
+</html>
