@@ -142,7 +142,7 @@
         <input id="numberInput" type="text" inputmode="numeric" value="27" placeholder="例: 27" />
         <button id="runButton" type="button">検証する</button>
       </div>
-      <p class="hint">JavaScript の BigInt を使うため、通常の整数型を超える大きな値も扱える。</p>
+      <p class="hint">カンマは自動で取り除く。JavaScript の BigInt を使うため、通常の整数型を超える大きな値も扱える。</p>
 
       <div id="result" class="hidden">
         <div class="stats">
@@ -181,8 +181,12 @@
       return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
+    function normalizeInput(raw) {
+      return raw.replace(/[,，]/g, '').trim();
+    }
+
     function validate(raw) {
-      const value = raw.trim();
+      const value = normalizeInput(raw);
       if (!/^\d+$/.test(value)) throw new Error('0より大きい整数を入力して。');
       const n = BigInt(value);
       if (n <= 0n) throw new Error('0より大きい整数を入力して。');
@@ -233,6 +237,10 @@
     }
 
     button.addEventListener('click', runCollatz);
+    input.addEventListener('input', () => {
+      const normalized = normalizeInput(input.value);
+      if (input.value !== normalized) input.value = normalized;
+    });
     input.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') runCollatz();
     });
