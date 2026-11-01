@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"SFXHandler+<EventReferencesWaitingForDelayCoroutine>d__15::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2144,"rva":863607,"sha256":"2b01e0943d65f73f92e3ff0c39563b41a49b8e1da91a32c46790e70d2768e3f1","signature":"200001","token":100679146,"virtual":true}

@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.DiceDrawingHandler+<SpawnPlayerDice>d__31::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2704,"rva":944453,"sha256":"da4fac8ee1c41f5ef2001cae8b95bab351e520be881a79190671342bb437ddeb","signature":"200001","token":100681498,"virtual":true}

@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.GoldReward+<GetGoldCoroutine>d__15::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":3217,"rva":1026952,"sha256":"92da88116ca3ee2de9c14f785ad045fb06da141aa49e5cb1c6c3608783775231","signature":"200001","token":100683213,"virtual":true}

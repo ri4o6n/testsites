@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldstr",{"string":"BGMMuteSave","token":1879053774}],[6,"ret",null]],"method":"SaveSystem::get_BgmMuteSaveString#cc32:g0()->string","name":"get_BgmMuteSaveString","owner":122,"rva":54887,"sha256":"7485b0f286c74f3a20290e982c220ff05afa78c827b6d948dcc6aa21f14882a3","signature":"20000e","token":100664148,"virtual":false}

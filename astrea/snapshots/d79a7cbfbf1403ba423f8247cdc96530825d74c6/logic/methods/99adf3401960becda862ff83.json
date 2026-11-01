@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.PlayerSpriteControl+<TryPlayUsingDiceSFX>d__17::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":3144,"rva":1018873,"sha256":"457ceb48e2eb82c3bf7461b8b8dbba47114aed065d57de6d6df91ae96f229457","signature":"200001","token":100682978,"virtual":true}

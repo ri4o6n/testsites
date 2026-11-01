@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.UnitEffects::OnRuneCasted#cc32:g0(Astrea.BattleActions.RuneInstance)->void","name":"OnRuneCasted","owner":1570,"rva":650226,"sha256":"4d8b0ca97a005855678ec53354fca4201e3bb6addfcd20c880a6834bf1b967d7","signature":"200101129ebc","token":100675102,"virtual":true}

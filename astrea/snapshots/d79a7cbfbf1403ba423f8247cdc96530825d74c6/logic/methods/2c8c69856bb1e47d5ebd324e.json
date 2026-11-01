@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.MapHandler+<ExitMapCoroutine>d__94::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2588,"rva":932178,"sha256":"bdf01a0751bfbf4eee7d0f440ae96585f78d994ea5f559903fb4640753e4415d","signature":"200001","token":100681156,"virtual":true}

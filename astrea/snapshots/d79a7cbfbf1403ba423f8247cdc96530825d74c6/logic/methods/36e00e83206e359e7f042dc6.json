@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.BattleActions.CalmAction+<EndPlayerTurn>d__4::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":3379,"rva":1049778,"sha256":"89e142519956d500d90abdf303a0d835c67f08f06979af81dae23fe738ea918f","signature":"200001","token":100683778,"virtual":true}

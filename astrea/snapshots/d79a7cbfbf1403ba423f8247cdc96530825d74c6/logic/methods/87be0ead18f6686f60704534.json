@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.ClearingReward::InitializePropPrefab#cc32:g0(UnityEngine.GameObject)->void","name":"InitializePropPrefab","owner":1716,"rva":720885,"sha256":"e31eea1cd3fc860a321061f0722d589e8e05d8dda48a9737ede8b514b14a0d78","signature":"2001011265","token":100676413,"virtual":true}

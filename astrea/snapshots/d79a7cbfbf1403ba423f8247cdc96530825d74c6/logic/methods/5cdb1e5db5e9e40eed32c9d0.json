@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.1",null],[2,"ret",null]],"method":"Astrea.BattleActions.BattleAction::CheckConditionToBeCasted#cc32:g0(int32)->bool","name":"CheckConditionToBeCasted","owner":2130,"rva":859680,"sha256":"33ff0fe7c035f5bae91d7bc1f3d05b1aeab80429bdce195f1de785cf0babbccd","signature":"20010208","token":100679056,"virtual":true}

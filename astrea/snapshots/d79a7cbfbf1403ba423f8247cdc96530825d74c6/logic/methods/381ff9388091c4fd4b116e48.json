@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4",9999999],[6,"ret",null]],"method":"Astrea.Effect::GetNumberToReplaceWithX#cc32:g0()->int32","name":"GetNumberToReplaceWithX","owner":1086,"rva":478113,"sha256":"cf8ac538d950c3414bd7722357202c985dbaa41d232ee8de0430d93fb02c26ca","signature":"200008","token":100671779,"virtual":false}

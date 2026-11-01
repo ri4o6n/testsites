@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"InvokeAlternatives+<InvokeCorout>d__8::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2344,"rva":892539,"sha256":"fed21db6ce275f32c87f4bf51332222c868c8f6fa3b0e08bc63fca66493e42de","signature":"200001","token":100679910,"virtual":true}

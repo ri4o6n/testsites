@@ -1,0 +1,1 @@
+{"asset":"CAB-4b8d8396cb1ec498dc93078985c7b77c:-2172978013144605539","boundary":"asset-not-expanded-by-budget","class":"LoseRandomOmenReward","unexpandedFields":["m_GameObject","m_Script","OnDestroyRandomOmen"],"values":{"m_Enabled":1,"m_Name":"LoseOmenReward","rewardName":"Lose 1 Random Blessing"}}

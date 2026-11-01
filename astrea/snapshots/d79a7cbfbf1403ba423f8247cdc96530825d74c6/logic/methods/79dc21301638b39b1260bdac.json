@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.0",null],[2,"ret",null]],"method":"Astrea.UnitEffects::OnEndTurnDecreaseEffects#cc32:g0()->bool","name":"OnEndTurnDecreaseEffects","owner":1570,"rva":650026,"sha256":"135e1b1070339926a2db6a611357608afb7866889de61b7e2f4c7a1bb215233b","signature":"200002","token":100675093,"virtual":true}

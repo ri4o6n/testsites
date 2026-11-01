@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.0",null],[2,"ret",null]],"method":"Astrea.CorruptionStats::IsDefeated#cc32:g0()->bool","name":"IsDefeated","owner":1565,"rva":644884,"sha256":"6eead9a08fdf60b0ac12e3ef482617f8f909b340dd6ed6adf4cf3c14a1a8e669","signature":"200002","token":100675004,"virtual":true}

@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.1",null],[2,"ret",null]],"method":"Astrea.UnitEffects::OnStartTurnEffects#cc32:g0()->bool","name":"OnStartTurnEffects","owner":1570,"rva":649885,"sha256":"5dcb84b2c9665684cb0075a511d5c0555ad2c8832e9719dc87e4337c2704c4d9","signature":"200002","token":100675090,"virtual":true}

@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.UnitEffects::OnEndCorruptPlayerState#cc32:g0()->void","name":"OnEndCorruptPlayerState","owner":1570,"rva":650052,"sha256":"a597f1e8fa0ab1b8cce722629ab2f2eb91c51983faf085ba0c43986cbf7fbf5b","signature":"200001","token":100675096,"virtual":true}

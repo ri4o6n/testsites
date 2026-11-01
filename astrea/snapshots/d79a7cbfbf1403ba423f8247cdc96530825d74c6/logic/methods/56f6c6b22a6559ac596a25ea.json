@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.ReshuffleDiscardedDicesHandler+<ReshuffleDices>d__3::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2901,"rva":980291,"sha256":"9489ffb3409513782d1f42dacc1e59673a8f222cbf395dee2fca3ab25badeb0b","signature":"200001","token":100682208,"virtual":true}

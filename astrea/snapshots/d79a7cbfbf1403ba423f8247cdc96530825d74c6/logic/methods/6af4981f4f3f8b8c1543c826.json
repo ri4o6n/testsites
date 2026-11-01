@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.CursorHandler+<UpdateCursorPosition>d__8::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2899,"rva":980088,"sha256":"87be51738d543889eea6d1ebd1d144dfa047f2da0ff03e17bf7477fd66da7bda","signature":"200001","token":100682198,"virtual":true}

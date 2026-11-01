@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"SteamManager::SteamAPIDebugTextHook#cc0:g0(int32,System.Text.StringBuilder)->void","name":"SteamAPIDebugTextHook","owner":59,"rva":25120,"sha256":"5c0e37ca16f8dba58a0d67eefd5db4ffc19cd974ee32d1b01dda07d2fcb702f6","signature":"00020108128121","token":100663569,"virtual":false}

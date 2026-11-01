@@ -1,0 +1,1 @@
+{"asset":"CAB-4b8d8396cb1ec498dc93078985c7b77c:-4277106123352010453","boundary":"asset-not-expanded-by-budget","class":"GainHeartReward","unexpandedFields":["m_GameObject","m_Script","OnPlayerGainHeart","recoverHeartParticlesPrefab","gainHeartRewardSFX"],"values":{"m_Enabled":1,"m_Name":"GainHeartReward","rewardName":""}}

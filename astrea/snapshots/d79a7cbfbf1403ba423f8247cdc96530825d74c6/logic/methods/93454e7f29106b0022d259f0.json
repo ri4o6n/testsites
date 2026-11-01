@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.UnitEffects::OnPurifyEffects#cc32:g0(float32,UnityEngine.GameObject,int32)->void","name":"OnPurifyEffects","owner":1570,"rva":650075,"sha256":"a9bd5f90cf557816f2f774c7da2e1568b694426f6ea30584a2835da35e122ba5","signature":"2003010c126508","token":100675098,"virtual":true}

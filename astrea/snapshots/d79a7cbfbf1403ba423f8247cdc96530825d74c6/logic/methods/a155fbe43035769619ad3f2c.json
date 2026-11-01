@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.BattleActions.BattleAction::Cast#cc32:g0(UnityEngine.GameObject)->void","name":"Cast","owner":2130,"rva":859672,"sha256":"be6ea03612de3d4cc7eecb3afd74b5a5649b9616e1f143277f2c31360c826ac8","signature":"2001011265","token":100679053,"virtual":true}

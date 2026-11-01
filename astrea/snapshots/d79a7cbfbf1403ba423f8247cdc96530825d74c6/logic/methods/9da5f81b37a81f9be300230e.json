@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.CorruptionStats+<UpdateCorruptionDelay>d__39::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":3070,"rva":1002539,"sha256":"0c4e86cdd900cd69df9acec158300356895185a9eb313ea791a787343df86c1f","signature":"200001","token":100682683,"virtual":true}

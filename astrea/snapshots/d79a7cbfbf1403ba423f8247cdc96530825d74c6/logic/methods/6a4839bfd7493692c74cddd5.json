@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.AphoticInstinctEffect+<ResetDoomCoroutine>d__17::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2770,"rva":955189,"sha256":"a435321c0c22579b86a0e7384ba167ae458863adb7580c2c2c5ab59c068fe51a","signature":"200001","token":100681710,"virtual":true}

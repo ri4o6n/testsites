@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.BattleActions.SearchDiceOnPoolAction::DiceChosen#cc32:g0(Astrea.Dice)->void","name":"DiceChosen","owner":1984,"rva":819987,"sha256":"8d4dc643bb3257288e1cb5aec16ccb40fccb802015079cb75292f6461f167e5a","signature":"200101128cd0","token":100678106,"virtual":true}

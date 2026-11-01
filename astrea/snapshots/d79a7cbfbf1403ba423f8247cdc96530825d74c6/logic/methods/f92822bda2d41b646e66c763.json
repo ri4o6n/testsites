@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.UnitEffects::OnSpecificDiceCasted#cc32:g0(Astrea.Dice)->void","name":"OnSpecificDiceCasted","owner":1570,"rva":650224,"sha256":"f7f28e19b6c885a356339f01f5251fe4b2ae3d930ca5d6f6db6027bb8f12afc1","signature":"200101128cd0","token":100675101,"virtual":true}

@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.ActionInstanceOutlineHandler::ToggleOutline#cc32:g0(bool,bool)->void","name":"ToggleOutline","owner":867,"rva":439112,"sha256":"2edc58e9f24134e18f939d6fedd231e4989f3d0bfedd3b4649888b849e672d9e","signature":"2002010202","token":100670870,"virtual":true}

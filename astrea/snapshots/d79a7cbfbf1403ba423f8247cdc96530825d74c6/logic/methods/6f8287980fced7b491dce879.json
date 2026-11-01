@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.ZoomableInstance+<TooltipDelayCoroutine>d__76::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2741,"rva":952036,"sha256":"ad0ca094fdb0ff40d644ba660f65dc7d8b15a5476fe3140a481ebbe0cab04f37","signature":"200001","token":100681629,"virtual":true}

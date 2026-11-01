@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.ActionDescriptionPanel+<FadeCoroutine>d__51::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2655,"rva":936922,"sha256":"62113a18558aae663c7c65a5206a876fd560a6168891abb694800ca051eb785e","signature":"200001","token":100681315,"virtual":true}

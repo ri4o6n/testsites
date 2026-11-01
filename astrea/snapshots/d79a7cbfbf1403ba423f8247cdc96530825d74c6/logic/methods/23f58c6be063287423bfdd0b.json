@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.1",null],[2,"ret",null]],"method":"Astrea.ShopItem::CheckCondition#cc32:g0()->bool","name":"CheckCondition","owner":1820,"rva":765721,"sha256":"8e1a120feddfb0afff052073b39df233ccbe9d62f14d399911c785f5cddda15f","signature":"200002","token":100677182,"virtual":true}

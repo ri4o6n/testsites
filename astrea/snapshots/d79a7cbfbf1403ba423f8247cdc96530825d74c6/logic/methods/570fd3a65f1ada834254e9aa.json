@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldstr",{"string":"","token":1879048295}],[6,"ret",null]],"method":"Astrea.AchievementDataCustomDescription::GetName#cc32:g0(string)->string","name":"GetName","owner":566,"rva":259778,"sha256":"9e2e180497f4aa8a371ba82a30dc1136f5abff668e79113d3918fd252afe54db","signature":"20010e0e","token":100668013,"virtual":true}

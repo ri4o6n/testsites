@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.BattleActions.BattleAction::SetupModdedBattleAction#cc32:g0()->void","name":"SetupModdedBattleAction","owner":2130,"rva":860270,"sha256":"28aed4af00899f543fba3bc4d483b3c411fbd4ab6bea22605cf2764db6ce9869","signature":"200001","token":100679085,"virtual":true}

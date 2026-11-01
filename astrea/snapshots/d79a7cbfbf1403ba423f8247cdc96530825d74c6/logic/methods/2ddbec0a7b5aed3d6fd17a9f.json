@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"RendererExtensions+<FadeRendererColor>d__15::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2280,"rva":886106,"sha256":"5627667a52a923ad4afe1baab88dbed75722c367bab8656507dbd7d30ab89959","signature":"200001","token":100679723,"virtual":true}

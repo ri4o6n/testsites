@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.CorruptPlayerState+<StartEnemiesTurn>d__13::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":3040,"rva":996635,"sha256":"bd499d47733861ad74becbbee44d3be6b380e8e1efbc9fa7b763dc9b3cf98b79","signature":"200001","token":100682566,"virtual":true}

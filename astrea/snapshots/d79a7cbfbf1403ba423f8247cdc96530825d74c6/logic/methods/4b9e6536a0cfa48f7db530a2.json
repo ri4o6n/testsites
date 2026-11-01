@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.DiceRolling+<SFXDelay>d__27::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2726,"rva":949118,"sha256":"bc369515df96e64cc7ceab36e2b3828df7f4a1d52992aa2d4a8150cb32ef1acc","signature":"200001","token":100681566,"virtual":true}

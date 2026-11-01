@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.StarAbility::OnEndTurnStarAbility#cc32:g0()->void","name":"OnEndTurnStarAbility","owner":1201,"rva":509369,"sha256":"122d5435fecd9b9049a12ad60fe4b680ed06eda22970a003f62daca639345ba2","signature":"200001","token":100672399,"virtual":true}

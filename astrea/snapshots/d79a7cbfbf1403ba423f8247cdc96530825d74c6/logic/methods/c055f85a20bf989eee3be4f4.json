@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.0",null],[2,"ret",null]],"method":"Astrea.BattleActions.PurifyCorruptWithMultiplierActions::PurifyCounter#cc32:g0(bool)->int32","name":"PurifyCounter","owner":2107,"rva":855146,"sha256":"e32049f5ff2d0820ea3b10478185fd00f74dacd74d486aff194e85a6911762e4","signature":"20010802","token":100678895,"virtual":true}

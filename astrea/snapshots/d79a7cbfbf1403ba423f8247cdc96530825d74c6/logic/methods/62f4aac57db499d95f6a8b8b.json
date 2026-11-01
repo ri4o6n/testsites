@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.Effect::Initialize#cc32:g0(int32,UnityEngine.GameObject,UnityEngine.GameObject)->void","name":"Initialize","owner":1086,"rva":478504,"sha256":"ec4240de2f3c3367826e5f27e8cb40f91f112d3acdff9d8560ea8aae6ed71720","signature":"2003010812651265","token":100671789,"virtual":true}

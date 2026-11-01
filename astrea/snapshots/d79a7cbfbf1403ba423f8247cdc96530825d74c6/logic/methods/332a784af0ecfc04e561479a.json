@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldnull",null],[2,"ret",null]],"method":"Astrea.ActionInstance::GetActionFace#cc32:g0()->Astrea.ActionFace","name":"GetActionFace","owner":813,"rva":402416,"sha256":"479c9ae369b7e826d01f429394326bea717095afd668ed6fbe9b11affc64560e","signature":"2000128cbc","token":100670315,"virtual":true}

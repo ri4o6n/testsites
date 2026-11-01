@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.BattleActions.BattleAction::BeforeActionCasted#cc32:g0()->void","name":"BeforeActionCasted","owner":2130,"rva":859660,"sha256":"7edefd98b62d02471902e34c9cbe53518f79bd43fadcb973fb8b682d021a359e","signature":"200001","token":100679047,"virtual":true}

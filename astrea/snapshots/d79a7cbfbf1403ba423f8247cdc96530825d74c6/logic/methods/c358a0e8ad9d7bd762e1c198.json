@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.0",null],[2,"ret",null]],"method":"Astrea.BattleActions.DiceOnHandBasedPurifyAction::GetPurifyAmount#cc32:g0(int32)->int32","name":"GetPurifyAmount","owner":2038,"rva":835510,"sha256":"cb6c0cdce7cd61d9f779319a59bed40a01d30e325633027bebcc825afe2c61de","signature":"20010808","token":100678436,"virtual":true}

@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.CharacterAchievement::OnUnitPurified#cc32:g0(int32,UnityEngine.GameObject)->void","name":"OnUnitPurified","owner":1050,"rva":469692,"sha256":"faa1fbfffaf9ddfccaa1d659ba956084a73135591dae6b147a6ed9116595104e","signature":"200201081265","token":100671516,"virtual":true}

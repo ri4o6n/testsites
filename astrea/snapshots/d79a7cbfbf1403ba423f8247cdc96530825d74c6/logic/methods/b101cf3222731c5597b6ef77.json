@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.RunModifiers.RunModifier::EndOfBattleInitialize#cc32:g0()->void","name":"EndOfBattleInitialize","owner":1938,"rva":796601,"sha256":"b4f87d96ac4885349a6dd204fad6ccfbd0bb097f3e67fc6682ae949e3329a98c","signature":"200001","token":100677791,"virtual":true}

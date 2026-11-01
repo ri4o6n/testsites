@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"RendererExtensions+<BlinkRenderer>d__9::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2275,"rva":884542,"sha256":"d905242a01158ef293819025615d92dd98af59194a9354cbfee182114263b551","signature":"200001","token":100679693,"virtual":true}

@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"fields":[],"method":"Astrea.CustomBattleActionName::GetActionName#cc32:g0(Astrea.BattleActions.BattleAction)->string","name":"GetActionName","owner":1029,"rva":0,"sha256":"aab3e36f0aa01588b01ad3f5e87f68aa79c03fcc251fdc3c9ce3cdf33afe7090","signature":"20010e12a148","token":100671364,"virtual":true}

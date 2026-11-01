@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.UnitEffects::ToggleActionValueModifier#cc32:g0(Astrea.ActionValueModifier)->void","name":"ToggleActionValueModifier","owner":1570,"rva":650780,"sha256":"4b2428946855fd37b3bfb6f2409b3bd8764b79740b8f273530ecbc150939674c","signature":"200101128cc0","token":100675123,"virtual":true}

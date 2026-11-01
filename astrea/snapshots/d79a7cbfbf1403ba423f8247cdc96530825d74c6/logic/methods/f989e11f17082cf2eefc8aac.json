@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.TooltipNameInstance+<ShowCavasGroupWithDelay>d__14::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":3145,"rva":1019063,"sha256":"b366771a8d53c4fdff4c07b7e472abf5ab22413e5f2d00bd81b245e7a8c7f717","signature":"200001","token":100682984,"virtual":true}

@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldnull",null],[2,"ret",null]],"method":"Astrea.Location::GetNodeData#cc32:g0()->Astrea.NodeData","name":"GetNodeData","owner":630,"rva":290672,"sha256":"2dacebb5c8696942d4b7e780d3721f8be530e44e58305d39a6c071b2069f2a5d","signature":"2000128a08","token":100668543,"virtual":true}

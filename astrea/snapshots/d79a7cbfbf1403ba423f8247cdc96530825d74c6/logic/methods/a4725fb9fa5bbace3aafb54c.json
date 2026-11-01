@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldarg.1",null],[2,"ret",null]],"method":"DiceRewardForgeModifier::GetModifiedDice#cc32:g0(Astrea.Dice)->Astrea.Dice","name":"GetModifiedDice","owner":158,"rva":73931,"sha256":"6c252eeeeff9c04c522d3ab490e6d545d3951f597416a1a56b0734b773201335","signature":"2001128cd0128cd0","token":100664483,"virtual":true}

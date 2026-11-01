@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldarg.1",null],[2,"ret",null]],"method":"Astrea.EventLocation+<>c::<AlreadySpawned>b__6_0#cc32:g0(string)->string","name":"<AlreadySpawned>b__6_0","owner":2582,"rva":932045,"sha256":"d9941d6828582d511b4a8e71fbb25467a8638e536462fa6e82e8866ce52dd7f5","signature":"20010e0e","token":100681146,"virtual":false}

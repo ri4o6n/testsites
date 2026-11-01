@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.GameStates.BattleActionCastStatesAction::Execute#cc32:g0(float32)->void","name":"Execute","owner":1836,"rva":776201,"sha256":"dfe79a2113df7eef03206010c7baab5194b7371b92bc2b8d532c9cdedee2ee6a","signature":"2001010c","token":100677371,"virtual":true}

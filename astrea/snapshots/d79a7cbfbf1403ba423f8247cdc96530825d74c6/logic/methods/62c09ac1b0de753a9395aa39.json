@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.CharacterAchievement::NewCompanionAcquired#cc32:g0(Astrea.CompanionData)->void","name":"NewCompanionAcquired","owner":1050,"rva":469698,"sha256":"2fb320814294c799439962d3cfb704f7d507f5172e038de0cf5e4c3f991c14a9","signature":"200101129890","token":100671519,"virtual":true}

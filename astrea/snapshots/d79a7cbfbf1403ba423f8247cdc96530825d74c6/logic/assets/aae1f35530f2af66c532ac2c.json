@@ -1,0 +1,1 @@
+{"asset":"CAB-4b8d8396cb1ec498dc93078985c7b77c:8649958594060985149","boundary":"asset-not-expanded-by-budget","class":"DestroyDiceReward","unexpandedFields":["m_GameObject","m_Script","OnDestroyDiceReward","destroyDiceRewardPanelPrefab","mapHandler"],"values":{"diceToDestroyAmount":2,"m_Enabled":1,"m_Name":"Destroy2DiceReward","rewardName":""}}

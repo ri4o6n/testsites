@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.CorruptionStats::OnCorruptionBlocked#cc32:g0(int32,UnityEngine.GameObject)->void","name":"OnCorruptionBlocked","owner":1565,"rva":644658,"sha256":"d6f4d539a50ba3bb17c2aac7738144fc072254b6f742919d2bee39bf334c7a23","signature":"200201081265","token":100674993,"virtual":true}

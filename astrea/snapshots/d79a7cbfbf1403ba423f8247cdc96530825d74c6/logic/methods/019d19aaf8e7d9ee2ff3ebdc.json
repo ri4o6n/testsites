@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.m1",null],[2,"ret",null]],"method":"Astrea.Effect::ActivateEffect#cc32:g0(int32,UnityEngine.GameObject)->int32","name":"ActivateEffect","owner":1086,"rva":479002,"sha256":"1b2c47fdf4d80a91b24886a5042e6a8dba87488875feaf8c919e3044c613bf32","signature":"200208081265","token":100671798,"virtual":true}

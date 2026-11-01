@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.ButtonCustomEventSetup::InitializeSpineAnimation#cc32:g0(Astrea.EventSpritesSkeleton)->void","name":"InitializeSpineAnimation","owner":1645,"rva":699335,"sha256":"8a2eedc3ffde38189d2dd88c102521e15d8d2fbb68b11194dc4e1e4e48fb2495","signature":"200101129a8c","token":100676000,"virtual":true}

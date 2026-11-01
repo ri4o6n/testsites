@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.FabricateSentinelsEffect+<CallBotsCoroutine>d__5::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2789,"rva":961484,"sha256":"6959a6ec59b2f8ffbf8dccb3edae54a45e67cb81c17339cc2cccd701d69f7002","signature":"200001","token":100681810,"virtual":true}

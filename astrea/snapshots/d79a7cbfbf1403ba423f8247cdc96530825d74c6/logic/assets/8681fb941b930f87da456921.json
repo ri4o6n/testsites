@@ -1,0 +1,1 @@
+{"asset":"CAB-4b8d8396cb1ec498dc93078985c7b77c:-7043330672664037169","boundary":"asset-not-expanded-by-budget","class":"DuplicateDiceReward","unexpandedFields":["m_GameObject","m_Script","OnDuplicateDiceReward","duplicateDiceCanvasPrefab","mapHandler"],"values":{"anyDie":0,"duplicateDiceAmount":1,"m_Enabled":1,"m_Name":"DuplicateDiceReward","rewardName":"Duplicate Die"}}

@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.0",null],[2,"ret",null]],"method":"Astrea.ParalyzeEffect::ActivateEffect#cc32:g0(int32,UnityEngine.GameObject)->int32","name":"ActivateEffect","owner":1204,"rva":509881,"sha256":"1db81db0030d3b2c757df38ba8843e051d5557fbe2ba38f7b364c4dab06fa6b1","signature":"200208081265","token":100672423,"virtual":true}

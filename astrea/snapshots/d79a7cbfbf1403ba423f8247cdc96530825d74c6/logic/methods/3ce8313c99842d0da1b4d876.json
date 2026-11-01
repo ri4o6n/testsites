@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.AutoTurretEffect+<AutoTurretCoroutine>d__7::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2762,"rva":953822,"sha256":"63e35f91fab3447e05b48afd99c84c6294f4f509ade0121db0528746a89882ac","signature":"200001","token":100681682,"virtual":true}

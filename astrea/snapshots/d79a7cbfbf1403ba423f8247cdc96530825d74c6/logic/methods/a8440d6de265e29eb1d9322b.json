@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.TransitionCanvas+<StartLoadSceneRoutine>d__11::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2675,"rva":939031,"sha256":"54d26f1e8cf326b272dbe49bf93147809c4041ca98ec289ea3933849ed6db098","signature":"200001","token":100681389,"virtual":true}

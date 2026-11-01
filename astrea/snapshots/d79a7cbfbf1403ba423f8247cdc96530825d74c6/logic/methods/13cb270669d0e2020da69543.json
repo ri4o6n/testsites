@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.GenericShop+<SpawnShopCoroutine>d__14::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":3243,"rva":1029332,"sha256":"35b7b700bc0bd736c0091b1deda342e79b9dfa9ab4841077eb0f493b47fc8f2e","signature":"200001","token":100683295,"virtual":true}

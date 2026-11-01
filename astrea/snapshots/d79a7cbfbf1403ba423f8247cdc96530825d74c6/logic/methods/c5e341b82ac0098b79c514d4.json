@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.SpriteControl::OnReceiveFatalDamage#cc32:g0()->void","name":"OnReceiveFatalDamage","owner":1567,"rva":648900,"sha256":"dbd37de2894458108cecda8870dc4b178e85600b83b92ce2a46b13637dac6d7b","signature":"200001","token":100675067,"virtual":true}

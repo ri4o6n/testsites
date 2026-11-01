@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.GameStates.DrawPoolDiscardMouseKeyboardAction::OnEndState#cc32:g0()->void","name":"OnEndState","owner":1832,"rva":775002,"sha256":"5ed4be3b19ea9744c1539823c53ec3ad36e85879da72aceb24aa1b25eb0ee5d6","signature":"200001","token":100677350,"virtual":true}

@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.OmniSoulEffect+<GoToSecondPhaseCoroutine>d__26::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2772,"rva":956462,"sha256":"fe3ed6484ab41ad6012f704c44caf36f0c61456be0db9df6db41e9ff182645ce","signature":"200001","token":100681722,"virtual":true}

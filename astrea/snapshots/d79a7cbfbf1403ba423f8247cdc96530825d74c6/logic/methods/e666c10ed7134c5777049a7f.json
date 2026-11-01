@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.BattleActions.ConjureAction+<NonVFXCoroutine>d__22::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":3386,"rva":1050595,"sha256":"b4661cab8228c7c162f4620c408e684ed74606884e7409097fef7c8197c159c4","signature":"200001","token":100683804,"virtual":true}

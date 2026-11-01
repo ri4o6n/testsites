@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.VortexBubbleEffect+<VortexBubbleCoroutine>d__12::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2813,"rva":967373,"sha256":"c6657e4b5b942ea920e2f6579dbcd46c7cf098307802c482c8797f785903baab","signature":"200001","token":100681921,"virtual":true}

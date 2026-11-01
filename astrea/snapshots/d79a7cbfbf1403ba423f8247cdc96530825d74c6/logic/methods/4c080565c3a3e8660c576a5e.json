@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.1",null],[2,"ret",null]],"method":"Astrea.ButtonDescriptionData::IsButtonClickable#cc32:g0()->bool","name":"IsButtonClickable","owner":751,"rva":358163,"sha256":"4f495d0f131436ee377dc2368075e894057e9065c1d60dbe288a566a4d2ea9e6","signature":"200002","token":100669649,"virtual":true}

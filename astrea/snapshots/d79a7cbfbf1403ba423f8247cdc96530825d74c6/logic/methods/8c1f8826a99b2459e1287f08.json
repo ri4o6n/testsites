@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.OrionAstrarium+<MoveOrbsBackAndForthCoroutine>d__36::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2827,"rva":969930,"sha256":"7189ee1a33399fd3d1c7b3aa35c5ede660f5e7f411ab211caf38715241774ecf","signature":"200001","token":100681984,"virtual":true}

@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.Effect::InitializeCompendium#cc32:g0(int32,UnityEngine.GameObject)->void","name":"InitializeCompendium","owner":1086,"rva":478506,"sha256":"80c2b37e9db2a2a6ad4e96efc188af6fabb61aa0d7a1f7041b986bcd52ab91c2","signature":"200201081265","token":100671790,"virtual":true}

@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.0",null],[2,"ret",null]],"method":"Astrea.AchievementDataHiddenHandler::IsHidden#cc32:g0()->bool","name":"IsHidden","owner":567,"rva":259814,"sha256":"52cc2739a6ba078bbe8c6ba7912574a227d1a22232c69fdf6a454676f473df48","signature":"200002","token":100668018,"virtual":true}

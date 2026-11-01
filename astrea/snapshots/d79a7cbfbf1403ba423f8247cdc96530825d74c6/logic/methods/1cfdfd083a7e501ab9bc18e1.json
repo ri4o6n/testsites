@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.s",10],[3,"ret",null]],"method":"Astrea.SoulHeat::get_MaxSoulHeat#cc32:g0()->int32","name":"get_MaxSoulHeat","owner":1071,"rva":473206,"sha256":"8d2ac6d80df2bf49b9cd52213ad15be91620703bddbba3061a8d499dda3bf811","signature":"200008","token":100671608,"virtual":false}

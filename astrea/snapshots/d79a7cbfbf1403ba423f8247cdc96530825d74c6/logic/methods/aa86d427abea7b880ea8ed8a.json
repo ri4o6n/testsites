@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.Effect::EffectDecreased#cc32:g0(int32,UnityEngine.GameObject)->void","name":"EffectDecreased","owner":1086,"rva":479000,"sha256":"3d78d45e1d2876d9276a31917966a8e945c627b0b7256b552e7c55748712c477","signature":"200201081265","token":100671797,"virtual":true}

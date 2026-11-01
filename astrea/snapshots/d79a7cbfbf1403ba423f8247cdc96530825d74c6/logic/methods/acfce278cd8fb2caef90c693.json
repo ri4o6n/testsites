@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.TransitionCanvas::UpdateSafeFrameSize#cc32:g0()->void","name":"UpdateSafeFrameSize","owner":785,"rva":372352,"sha256":"35a7dd76cd79af3405c792ee9b9e66d54ac21b70b6e88794d24cc1c51935887d","signature":"200001","token":100669967,"virtual":false}

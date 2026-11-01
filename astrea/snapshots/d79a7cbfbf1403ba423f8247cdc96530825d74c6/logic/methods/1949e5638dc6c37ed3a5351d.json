@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.1",null],[2,"ret",null]],"method":"Astrea.BattleActions.ChooseDiceAction::CheckCondition#cc32:g0(Astrea.DiceInstance)->bool","name":"CheckCondition","owner":1982,"rva":818843,"sha256":"33b2f86655a60befd29cc36d54ccdf71798a80d272cdca3abe95c9ae2b6906e5","signature":"200102128d28","token":100678080,"virtual":true}

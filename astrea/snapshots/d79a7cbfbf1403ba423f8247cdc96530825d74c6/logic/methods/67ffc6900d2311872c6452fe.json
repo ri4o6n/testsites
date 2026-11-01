@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.1",null],[2,"ret",null]],"method":"Astrea.AchievementData::UnlockCustomRequirementCheck#cc32:g0()->bool","name":"UnlockCustomRequirementCheck","owner":565,"rva":259588,"sha256":"e9a997e54627cf59b9a18922816dba16e94bdbace4aced7f1d134e9119211651","signature":"200002","token":100668004,"virtual":true}

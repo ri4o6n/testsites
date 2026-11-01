@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.1",null],[2,"ret",null]],"method":"Astrea.ButtonDescriptionData::CanShowButtonPrompt#cc32:g0()->bool","name":"CanShowButtonPrompt","owner":751,"rva":358166,"sha256":"0b798354d366e00e097e2701ae135226b220b27988f57a1a933bbbdbf55d5947","signature":"200002","token":100669650,"virtual":true}

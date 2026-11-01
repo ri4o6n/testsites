@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.1",null],[2,"ret",null]],"method":"Astrea.EventAction::IsEventButtonEnabled#cc32:g0()->bool","name":"IsEventButtonEnabled","owner":1662,"rva":703592,"sha256":"b48c269c4b40d3928310f732fad00bd11014e552008ccf0216c18b80885929b3","signature":"200002","token":100676099,"virtual":true}

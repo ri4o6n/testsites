@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"CoroutineUtility+<WaitUntil_Routine>d__3::System.IDisposable.Dispose#cc32:g0()->void","name":"System.IDisposable.Dispose","owner":2340,"rva":892159,"sha256":"e0374f11c3cbdea2f4c7cade9ad89aeb9258517e3c4b73ba6ab833a8300114c8","signature":"200001","token":100679892,"virtual":true}

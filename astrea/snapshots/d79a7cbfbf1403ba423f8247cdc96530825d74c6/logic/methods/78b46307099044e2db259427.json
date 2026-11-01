@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.AnimationData::set_SkeletonDataAsset#cc32:g0(Spine.Unity.SkeletonDataAsset)->void","name":"set_SkeletonDataAsset","owner":1552,"rva":640746,"sha256":"e4a8fc85fd78aba7b49b90683f0ce32295027d5d11c6be1940d35d9eca516385","signature":"2001011282bd","token":100674913,"virtual":false}

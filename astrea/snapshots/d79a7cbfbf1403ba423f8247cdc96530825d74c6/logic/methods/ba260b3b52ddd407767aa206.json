@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ret",null]],"method":"Astrea.CharacterAchievement::OnStartEndOfBattleState#cc32:g0()->void","name":"OnStartEndOfBattleState","owner":1050,"rva":469696,"sha256":"14ef0e652e27934ea998e0b6544a0806221b285620237fdaffc2cbc95c0cb76d","signature":"200001","token":100671518,"virtual":true}

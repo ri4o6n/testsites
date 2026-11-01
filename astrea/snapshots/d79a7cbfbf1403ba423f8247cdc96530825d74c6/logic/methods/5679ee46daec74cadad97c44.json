@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldc.i4.6",null],[2,"ret",null]],"method":"Astrea.BattleHandler::get_FramesToWaitToUpdateCorruption#cc32:g0()->int32","name":"get_FramesToWaitToUpdateCorruption","owner":1047,"rva":465605,"sha256":"19a1c024f3efeebddf6ee822ade40a16054364dc826a8d919cf1e5389c052b47","signature":"200008","token":100671409,"virtual":false}

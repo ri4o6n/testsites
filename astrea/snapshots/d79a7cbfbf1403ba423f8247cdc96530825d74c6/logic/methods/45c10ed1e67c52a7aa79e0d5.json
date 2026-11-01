@@ -1,0 +1,1 @@
+{"branches":[],"calls":[],"exceptions":[],"fields":[],"il":[[1,"ldstr",{"string":"SFXMuteSave","token":1879053826}],[6,"ret",null]],"method":"SaveSystem::get_SfxMuteSaveString#cc32:g0()->string","name":"get_SfxMuteSaveString","owner":122,"rva":54901,"sha256":"2b57b8e9304831f2a796f39f9cf68efcc2c5ab7a179426b973751b45ab6a3d9d","signature":"20000e","token":100664150,"virtual":false}
